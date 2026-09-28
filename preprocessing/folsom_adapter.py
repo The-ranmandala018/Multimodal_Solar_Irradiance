@@ -65,6 +65,10 @@ class Calibration:
     p: float
     az_sign: int
     az_alpha_deg: float
+    num_calibration_points: int | None
+    radial_rmse_deg: float | None
+    azimuth_rmse_deg: float | None
+    azimuth_mae_deg: float | None
     map_x: np.ndarray
     map_y: np.ndarray
 
@@ -181,6 +185,26 @@ class FolsomPreprocessor:
             p=float(data["p"]),
             az_sign=int(data["az_sign"]),
             az_alpha_deg=float(data["az_alpha_deg"]),
+            num_calibration_points=(
+                int(data["num_calibration_points"])
+                if data.get("num_calibration_points") is not None
+                else None
+            ),
+            radial_rmse_deg=(
+                float(data["radial_rmse_deg"])
+                if data.get("radial_rmse_deg") is not None
+                else None
+            ),
+            azimuth_rmse_deg=(
+                float(data["azimuth_rmse_deg"])
+                if data.get("azimuth_rmse_deg") is not None
+                else None
+            ),
+            azimuth_mae_deg=(
+                float(data["azimuth_mae_deg"])
+                if data.get("azimuth_mae_deg") is not None
+                else None
+            ),
             map_x=map_x,
             map_y=map_y,
         )
@@ -353,7 +377,7 @@ class FolsomPreprocessor:
             selected_records
         )
 
-        src.calculate_calibration_quality(
+        quality = src.calculate_calibration_quality(
             sun_df,
             p_fit,
             az_sign,
@@ -380,6 +404,10 @@ class FolsomPreprocessor:
             p=float(p_fit),
             az_sign=int(az_sign),
             az_alpha_deg=float(az_alpha),
+            num_calibration_points=int(len(sun_df)),
+            radial_rmse_deg=float(quality["radial_rmse_deg"]),
+            azimuth_rmse_deg=float(quality["azimuth_rmse_deg"]),
+            azimuth_mae_deg=float(quality["azimuth_mae_deg"]),
             map_x=map_x,
             map_y=map_y,
         )
