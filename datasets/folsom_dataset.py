@@ -48,6 +48,10 @@ class FolsomDataset(Dataset):
         self.df = self._add_solar_features(self.df)
         self.df = self.df[self.df["SZA"] <= 85].copy()
 
+        # Keep an untouched copy for future prediction targets.
+        # Only the model input features are normalized later.
+        self.target_df = self.df.copy()
+
         self.feature_cols = [
             "k_index",
             "temperature",
@@ -245,7 +249,7 @@ class FolsomDataset(Dataset):
         ghi_cs = []
         for horizon in self.horizons:
             target_dt = dt + timedelta(minutes=horizon)
-            row = self.df.loc[target_dt]
+            row = self.target_df.loc[target_dt]
             if isinstance(row, pd.DataFrame):
                 row = row.iloc[0]
             targets.append(float(row["k_index"]))
