@@ -73,31 +73,29 @@ def main() -> None:
             "month_number": month,
             "month_name": calibration_month_name(month),
             "source": "newly_calibrated_using_original_folsom_pipeline",
-            "calibration": {
-                "dataset": "Folsom",
-                "year": 2014,
-                "month": month,
-                "latitude": 38.642,
-                "longitude": -121.148,
-                "timestamp_timezone": "UTC",
-                "cx": calibration.cx,
-                "cy": calibration.cy,
-                "R": calibration.radius,
-                "projection_model": "theta_deg = 90 * (r_norm ** p)",
-                "p": calibration.p,
-                "azimuth_model": (
-                    "predicted_azimuth = "
-                    "az_sign * (image_phi - az_alpha)"
-                ),
-                "az_sign": calibration.az_sign,
-                "az_alpha_deg": calibration.az_alpha_deg,
-                "num_calibration_points": calibration.num_calibration_points,
-                "radial_rmse_deg": calibration.radial_rmse_deg,
-                "azimuth_rmse_deg": calibration.azimuth_rmse_deg,
-                "azimuth_mae_deg": calibration.azimuth_mae_deg,
-                "map_x_shape": list(calibration.map_x.shape),
-                "map_y_shape": list(calibration.map_y.shape),
-            },
+            "dataset": "Folsom",
+            "year": 2014,
+            "month": month,
+            "latitude": 38.642,
+            "longitude": -121.148,
+            "timestamp_timezone": "UTC",
+            "cx": calibration.cx,
+            "cy": calibration.cy,
+            "R": calibration.radius,
+            "projection_model": "theta_deg = 90 * (r_norm ** p)",
+            "p": calibration.p,
+            "azimuth_model": (
+                "predicted_azimuth = "
+                "az_sign * (image_phi - az_alpha)"
+            ),
+            "az_sign": calibration.az_sign,
+            "az_alpha_deg": calibration.az_alpha_deg,
+            "num_calibration_points": calibration.num_calibration_points,
+            "radial_rmse_deg": calibration.radial_rmse_deg,
+            "azimuth_rmse_deg": calibration.azimuth_rmse_deg,
+            "azimuth_mae_deg": calibration.azimuth_mae_deg,
+            "map_x_shape": list(calibration.map_x.shape),
+            "map_y_shape": list(calibration.map_y.shape),
         }
 
         # Save immediately after each successful month.
