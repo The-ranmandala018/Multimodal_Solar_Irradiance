@@ -150,8 +150,17 @@ class FolsomPreprocessor:
 
         original_save = self.source._save_calibration_checkpoint
         run_version = getattr(self.source, "RUN_VERSION", None)
+        checkpoint_counters = {}
 
         def save_checkpoint(path, data):
+            # The original source requests a checkpoint after every image.
+            # Persist only every 500 processed images to reduce disk I/O.
+            count = checkpoint_counters.get(path, 0) + 1
+            checkpoint_counters[path] = count
+
+            if count % 500 != 0:
+                return
+
             payload = dict(data)
             if run_version is not None:
                 payload["run_version"] = run_version
