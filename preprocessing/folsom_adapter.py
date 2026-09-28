@@ -39,6 +39,8 @@ CALIBRATION_2014_FILE = (
     CALIBRATION_RESULTS_DIR / "Folsom_2014_monthly_calibrations.json"
 )
 
+CHECKPOINT_DIR = CALIBRATION_RESULTS_DIR / "checkpoints"
+
 
 def _load_original_module():
     spec = importlib.util.spec_from_file_location(
@@ -109,6 +111,10 @@ class FolsomPreprocessor:
         self._calibration_cache: dict[int, Calibration] = {}
         self._saved_calibrations = self._load_saved_calibrations()
 
+        # The original source already contains per-image checkpoint/resume
+        # support. We enable it here without modifying the source file.
+        self._enable_checkpoint_resume()
+
     def _load_saved_calibrations(self) -> dict[int, dict]:
         """Load verified reusable calibrations for the current year.
 
@@ -134,6 +140,31 @@ class FolsomPreprocessor:
             int(month): calibration
             for month, calibration in months.items()
         }
+
+    def _enable_checkpoint_resume(self) -> None:
+        """Enable reliable source checkpoints without modifying the source file."""
+        CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
+
+        if getattr(self.source, "_adapter_checkpoint_patched", False):
+            return
+
+        original_save = self.source._save_calibration_checkpoint
+        run_version = getattr(self.source, "RUN_VERSION", None)
+
+        def save_checkpoint(path, data):
+            payload = dict(data)
+            if run_version is not None:
+                payload["run_version"] = run_version
+            original_save(path, payload)
+
+        self.source._save_calibration_checkpoint = save_checkpoint
+        self.source._adapter_checkpoint_patched = True
+
+    def _checkpoint_path(self, month: int) -> str:
+        CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
+        return str(
+            CHECKPOINT_DIR / f"{self.year}_{month:02d}_calibration_checkpoint.json"
+        )
 
     def _calibration_from_saved(
         self,
@@ -293,12 +324,14 @@ class FolsomPreprocessor:
             reference_image
         )
 
+        checkpoint_path = self._checkpoint_path(month)
+
         records = src.collect_month_calibration_records(
             image_index_df,
             cx,
             cy,
             radius,
-            checkpoint_path=None,
+            checkpoint_path=checkpoint_path,
         )
 
         if len(records) < src.MIN_SUN_POINTS:
@@ -415,6 +448,11 @@ class FolsomPreprocessor:
         self._calibration_cache[month] = calibration
         self._previous_sign = calibration.az_sign
         self._previous_alpha = calibration.az_alpha_deg
+
+        # A completed month no longer needs its image-level checkpoint.
+        checkpoint_file = Path(self._checkpoint_path(month))
+        if checkpoint_file.exists():
+            checkpoint_file.unlink()
 
         return calibration
 
