@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import bisect
 import os
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Optional
 
 import numpy as np
@@ -58,11 +58,10 @@ class FolsomDataset(Dataset):
             "cos_hour",
         ]
 
-        self.mean = self.df[self.feature_cols].mean()
-        self.std = self.df[self.feature_cols].std()
-        self.df[self.feature_cols] = (
-            self.df[self.feature_cols] - self.mean
-        ) / (self.std + 1e-6)
+        # Normalization is applied after the chronological split so that
+        # validation/test periods do not leak into training statistics.
+        self.mean = None
+        self.std = None
 
         self.samples = self._match_samples()
         self._preprocessors = {}
@@ -121,7 +120,7 @@ class FolsomDataset(Dataset):
             parsed = None
             for fmt in ("%Y%m%d_%H%M%S", "%Y-%m-%d_%H-%M-%S", "%Y-%m-%d_%H-%M"):
                 try:
-                    parsed = pd.Timestamp.strptime(stem, fmt).to_pydatetime()
+                    parsed = datetime.strptime(stem, fmt)
                     break
                 except Exception:
                     continue
@@ -201,6 +200,14 @@ class FolsomDataset(Dataset):
             )
         return self._preprocessors[year]
 
+    def set_normalization(self, mean, std):
+        """Apply train-only feature normalization to the dataframe."""
+        self.mean = mean.copy()
+        self.std = std.copy()
+        self.df[self.feature_cols] = (
+            self.df[self.feature_cols] - self.mean
+        ) / (self.std + 1e-6)
+
     def __len__(self):
         return len(self.samples)
 
@@ -263,6 +270,12 @@ def get_data_loaders(config):
         train_years=(2014, 2015),
         test_year=2016,
     )
+
+    # Fit normalization only on the training years (2014-2015).
+    train_times = [dataset.samples[i][1] for i in train_idx]
+    train_mask = dataset.df.index.isin(train_times)
+    train_stats = dataset.df.loc[train_mask, dataset.feature_cols]
+    dataset.set_normalization(train_stats.mean(), train_stats.std())
 
     batch_size = int(config["data"].get("batch_size", 16))
     num_workers = int(config["data"].get("num_workers", 4))
