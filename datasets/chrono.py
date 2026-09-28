@@ -3,7 +3,7 @@
 
 def chronological_year_split(samples, val_split=0.1, train_years=(2014, 2015), test_year=2016):
     """Split samples by calendar year without random mixing across years."""
-    trainval = [i for i, sample in enumerate(samples) if sample[2].year in train_years]
+    trainval = [i for i, sample in enumerate(samples) if sample[1].year in train_years]
     test = [i for i, sample in enumerate(samples) if sample[2].year == test_year]
 
     if len(trainval) < 2 or not test:
