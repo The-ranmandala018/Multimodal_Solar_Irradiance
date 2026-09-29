@@ -35,9 +35,6 @@ CALIBRATION_RESULTS_DIR = (
     Path(__file__).resolve().parents[1] / "calibration_results"
 )
 
-CALIBRATION_2014_FILE = (
-    CALIBRATION_RESULTS_DIR / "Folsom_2014_monthly_calibrations.json"
-)
 
 CHECKPOINT_DIR = CALIBRATION_RESULTS_DIR / "checkpoints"
 
@@ -116,19 +113,16 @@ class FolsomPreprocessor:
         self._enable_checkpoint_resume()
 
     def _load_saved_calibrations(self) -> dict[int, dict]:
-        """Load verified reusable calibrations for the current year.
+        """Load reusable monthly calibrations for the current year."""
+        calibration_file = (
+            CALIBRATION_RESULTS_DIR
+            / f"Folsom_{self.year}_monthly_calibrations.json"
+        )
 
-        At present, only the verified 2014 January-September calibration
-        file is included. Other years intentionally remain independent
-        and will use their own calibration files when added.
-        """
-        if self.year != 2014:
+        if not calibration_file.exists():
             return {}
 
-        if not CALIBRATION_2014_FILE.exists():
-            return {}
-
-        with CALIBRATION_2014_FILE.open(
+        with calibration_file.open(
             "r",
             encoding="utf-8",
         ) as f:
