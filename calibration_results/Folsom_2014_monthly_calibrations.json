@@ -147,6 +147,99 @@
       "radial_rmse_deg": 13.140460630683076,
       "azimuth_rmse_deg": 9.33113474754697,
       "azimuth_mae_deg": 6.603015639525379
+    },
+    "10": {
+      "month_number": 10,
+      "month_name": "October",
+      "source": "newly_calibrated_using_original_folsom_pipeline",
+      "dataset": "Folsom",
+      "year": 2014,
+      "month": 10,
+      "latitude": 38.642,
+      "longitude": -121.148,
+      "timestamp_timezone": "UTC",
+      "cx": 788.8095092773438,
+      "cy": 763.4911499023438,
+      "R": 784.6088256835938,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.5700000000000001,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 101.49999999999461,
+      "num_calibration_points": 12390,
+      "radial_rmse_deg": 12.427883389300119,
+      "azimuth_rmse_deg": 7.998665012358926,
+      "azimuth_mae_deg": 5.270329999352654,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "11": {
+      "month_number": 11,
+      "month_name": "November",
+      "source": "newly_calibrated_using_original_folsom_pipeline",
+      "dataset": "Folsom",
+      "year": 2014,
+      "month": 11,
+      "latitude": 38.642,
+      "longitude": -121.148,
+      "timestamp_timezone": "UTC",
+      "cx": 781.137939453125,
+      "cy": 750.5452270507812,
+      "R": 762.97119140625,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.29000000000000004,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 101.49999999999405,
+      "num_calibration_points": 9999,
+      "radial_rmse_deg": 14.681094053932979,
+      "azimuth_rmse_deg": 9.28172665008538,
+      "azimuth_mae_deg": 6.060168652526454,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "12": {
+      "month_number": 12,
+      "month_name": "December",
+      "source": "newly_calibrated_using_original_folsom_pipeline",
+      "dataset": "Folsom",
+      "year": 2014,
+      "month": 12,
+      "latitude": 38.642,
+      "longitude": -121.148,
+      "timestamp_timezone": "UTC",
+      "cx": 778.1089477539062,
+      "cy": 749.1060180664062,
+      "R": 760.3931884765625,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.21000000000000002,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 101.59999999999347,
+      "num_calibration_points": 11410,
+      "radial_rmse_deg": 12.983418893691585,
+      "azimuth_rmse_deg": 9.488546707143673,
+      "azimuth_mae_deg": 5.845169361601109,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
     }
   }
 }
