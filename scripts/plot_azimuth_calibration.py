@@ -10,9 +10,9 @@ points, then computes:
 
 For each year it writes:
     - a CSV containing actual/predicted azimuth and circular error
-    - a scatter plot of actual vs predicted azimuth
+    - a line plot of actual vs predicted azimuth in calibration-sample order
 
-It also writes a combined yearly summary and comparison plot.
+It also writes a combined year-by-year comparison plot with one panel per year.
 
 Example:
     PYTHONPATH=. python scripts/plot_azimuth_calibration.py
@@ -304,36 +304,39 @@ def summarize_year(df: pd.DataFrame, year: int) -> dict:
     }
 
 
-def plot_year_scatter(
+def plot_year_line(
     df: pd.DataFrame,
     year: int,
     output_path: Path,
 ) -> None:
-    plt.figure(figsize=(8, 7))
+    """Plot actual and predicted azimuth in calibration-sample order."""
+    plt.figure(figsize=(12, 6))
 
-    plt.scatter(
+    x = np.arange(len(df))
+
+    plt.plot(
+        x,
         df["actual_azimuth_deg"],
-        df["predicted_azimuth_deg"],
-        s=5,
-        alpha=0.25,
+        linewidth=0.8,
+        label="Actual Solar Azimuth",
     )
 
     plt.plot(
-        [0, 360],
-        [0, 360],
-        linewidth=2,
+        x,
+        df["predicted_azimuth_deg"],
+        linewidth=0.8,
+        label="Predicted Solar Azimuth",
     )
 
-    plt.xlim(0, 360)
-    plt.ylim(0, 360)
-
-    plt.xlabel("Actual Solar Azimuth (°)")
-    plt.ylabel("Predicted Solar Azimuth (°)")
+    plt.xlabel("Calibration Sample")
+    plt.ylabel("Azimuth (°)")
     plt.title(
         f"Folsom {year}: Actual vs Predicted Solar Azimuth"
     )
 
+    plt.ylim(0, 360)
     plt.grid(True, alpha=0.3)
+    plt.legend()
     plt.tight_layout()
 
     plt.savefig(
@@ -343,6 +346,67 @@ def plot_year_scatter(
     )
 
     plt.close()
+
+
+def plot_year_comparison(
+    year_data: dict[int, pd.DataFrame],
+    output_path: Path,
+) -> None:
+    """Create one figure with 2014/2015/2016 actual-vs-predicted panels."""
+    years = sorted(year_data.keys())
+
+    if not years:
+        return
+
+    fig, axes = plt.subplots(
+        len(years),
+        1,
+        figsize=(14, 5 * len(years)),
+        squeeze=False,
+    )
+
+    axes = axes[:, 0]
+
+    for ax, year in zip(axes, years):
+        df = year_data[year]
+
+        x = np.arange(len(df))
+
+        ax.plot(
+            x,
+            df["actual_azimuth_deg"],
+            linewidth=0.8,
+            label="Actual Solar Azimuth",
+        )
+
+        ax.plot(
+            x,
+            df["predicted_azimuth_deg"],
+            linewidth=0.8,
+            label="Predicted Solar Azimuth",
+        )
+
+        ax.set_ylim(0, 360)
+        ax.set_xlabel("Calibration Sample")
+        ax.set_ylabel("Azimuth (°)")
+        ax.set_title(f"Folsom {year}: Actual vs Predicted Solar Azimuth")
+        ax.grid(True, alpha=0.3)
+        ax.legend()
+
+    fig.suptitle(
+        "Folsom Actual vs Predicted Solar Azimuth — Year by Year",
+        fontsize=16,
+    )
+
+    fig.tight_layout(rect=[0, 0, 1, 0.97])
+
+    fig.savefig(
+        output_path,
+        dpi=300,
+        bbox_inches="tight",
+    )
+
+    plt.close(fig)
 
 
 def plot_year_comparison(
@@ -486,7 +550,7 @@ def main() -> None:
             / f"Folsom_{year}_actual_vs_predicted_azimuth.png"
         )
 
-        plot_year_scatter(
+        plot_year_line(
             df,
             year,
             plot_path,
