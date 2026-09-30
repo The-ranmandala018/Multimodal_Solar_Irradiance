@@ -1,0 +1,332 @@
+{
+  "dataset": "Folsom",
+  "year": 2015,
+  "calibration_type": "monthly",
+  "source": "calibrated_using_original_folsom_pipeline",
+  "months": {
+    "01": {
+      "month_number": 1,
+      "month_name": "January",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 1,
+      "cx": 797.7384033203125,
+      "cy": 767.7003784179688,
+      "R": 790.8997192382812,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.25,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 96.7,
+      "num_calibration_points": 10577,
+      "radial_rmse_deg": 12.766612036086267,
+      "azimuth_rmse_deg": 9.481245094437849,
+      "azimuth_mae_deg": 6.116690428916857,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "02": {
+      "month_number": 2,
+      "month_name": "February",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 2,
+      "cx": 801.0414428710938,
+      "cy": 792.9773559570312,
+      "R": 812.718994140625,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.32,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 97.99999999999936,
+      "num_calibration_points": 10048,
+      "radial_rmse_deg": 13.915379268513314,
+      "azimuth_rmse_deg": 9.909060986571308,
+      "azimuth_mae_deg": 6.531082527465865,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "03": {
+      "month_number": 3,
+      "month_name": "March",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 3,
+      "cx": 786.63427734375,
+      "cy": 754.386962890625,
+      "R": 773.0054321289062,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.6,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 99.79999999999869,
+      "num_calibration_points": 11572,
+      "radial_rmse_deg": 12.829084905782485,
+      "azimuth_rmse_deg": 9.132400202080937,
+      "azimuth_mae_deg": 6.198382010938239,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "04": {
+      "month_number": 4,
+      "month_name": "April",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 4,
+      "cx": 782.7919921875,
+      "cy": 754.312744140625,
+      "R": 774.07470703125,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.65,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 101.39999999999803,
+      "num_calibration_points": 11438,
+      "radial_rmse_deg": 14.76835981384599,
+      "azimuth_rmse_deg": 12.465384323685127,
+      "azimuth_mae_deg": 9.198736226377203,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "05": {
+      "month_number": 5,
+      "month_name": "May",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 5,
+      "cx": 771.3192749023438,
+      "cy": 746.0,
+      "R": 785.7693481445312,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.89,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 101.89999999999743,
+      "num_calibration_points": 16137,
+      "radial_rmse_deg": 16.404157271531435,
+      "azimuth_rmse_deg": 10.581704845599655,
+      "azimuth_mae_deg": 7.300157663930254,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "06": {
+      "month_number": 6,
+      "month_name": "June",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 6,
+      "cx": 783.116943359375,
+      "cy": 752.9701538085938,
+      "R": 771.0765991210938,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 1.07,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 102.59999999999683,
+      "num_calibration_points": 17780,
+      "radial_rmse_deg": 15.10404215481576,
+      "azimuth_rmse_deg": 10.299317732135783,
+      "azimuth_mae_deg": 7.151917872290721,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "07": {
+      "month_number": 7,
+      "month_name": "July",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 7,
+      "cx": 784.2459716796875,
+      "cy": 753.0853881835938,
+      "R": 772.7561645507812,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.9,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 102.69999999999625,
+      "num_calibration_points": 20635,
+      "radial_rmse_deg": 15.368223058113678,
+      "azimuth_rmse_deg": 8.66178713279985,
+      "azimuth_mae_deg": 5.732413244903155,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "08": {
+      "month_number": 8,
+      "month_name": "August",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 8,
+      "cx": 782.7118530273438,
+      "cy": 747.0,
+      "R": 764.8409423828125,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.97,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 102.89999999999567,
+      "num_calibration_points": 21170,
+      "radial_rmse_deg": 11.682686702178703,
+      "azimuth_rmse_deg": 6.5091442199622405,
+      "azimuth_mae_deg": 4.115913123182438,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "09": {
+      "month_number": 9,
+      "month_name": "September",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 9,
+      "cx": 778.1172485351562,
+      "cy": 752.0,
+      "R": 781.3499145507812,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.73,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 103.09999999999509,
+      "num_calibration_points": 19320,
+      "radial_rmse_deg": 15.032293815489345,
+      "azimuth_rmse_deg": 6.280852750849876,
+      "azimuth_mae_deg": 3.5827889384207254,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "10": {
+      "month_number": 10,
+      "month_name": "October",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 10,
+      "cx": 780.1856689453125,
+      "cy": 751.331787109375,
+      "R": 763.57470703125,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.62,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 103.3999999999945,
+      "num_calibration_points": 14719,
+      "radial_rmse_deg": 14.366938143721155,
+      "azimuth_rmse_deg": 7.022968881431012,
+      "azimuth_mae_deg": 4.221585517130215,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "11": {
+      "month_number": 11,
+      "month_name": "November",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 11,
+      "cx": 777.6475830078125,
+      "cy": 805.2327880859375,
+      "R": 823.2628173828125,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.41000000000000003,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 103.89999999999391,
+      "num_calibration_points": 14607,
+      "radial_rmse_deg": 13.013483248627699,
+      "azimuth_rmse_deg": 6.020283084653854,
+      "azimuth_mae_deg": 3.314885089278531,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    },
+    "12": {
+      "month_number": 12,
+      "month_name": "December",
+      "dataset": "Folsom",
+      "year": 2015,
+      "month": 12,
+      "cx": 784.9932861328125,
+      "cy": 752.3026733398438,
+      "R": 761.6553344726562,
+      "projection_model": "theta_deg = 90 * (r_norm ** p)",
+      "p": 0.28,
+      "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+      "az_sign": 1,
+      "az_alpha_deg": 103.69999999999335,
+      "num_calibration_points": 13846,
+      "radial_rmse_deg": 13.825116603174488,
+      "azimuth_rmse_deg": 6.8027864476188995,
+      "azimuth_mae_deg": 3.4460208387160156,
+      "map_x_shape": [
+        180,
+        720
+      ],
+      "map_y_shape": [
+        180,
+        720
+      ]
+    }
+  }
+}
