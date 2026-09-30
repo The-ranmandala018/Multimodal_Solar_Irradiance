@@ -17,6 +17,7 @@ calibration is complete and the DataLoader batch smoke test passes.
 from __future__ import annotations
 
 import argparse
+import os
 import time
 
 import torch
@@ -29,10 +30,14 @@ from models.multimodal_model import MultimodalSolarForecastModel
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--epochs", type=int, default=1)
+    parser.add_argument("--epochs", type=int, default=30)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--num-workers", type=int, default=4)
     parser.add_argument("--lr", type=float, default=1e-4)
+    parser.add_argument("--patience", type=int, default=5,
+                        help="Stop after this many consecutive epochs without meaningful validation improvement.")
+    parser.add_argument("--min-delta", type=float, default=1e-4,
+                        help="Minimum validation-loss decrease required to reset early-stopping patience.")
     parser.add_argument("--max-train-batches", type=int, default=0,
                         help="0 means the full training loader.")
     parser.add_argument("--checkpoint", type=str,
@@ -87,8 +92,13 @@ def main() -> None:
     print(f"AMP: {use_amp}")
     print(f"Train batches: {len(train_loader)}")
     print(f"Validation batches: {len(val_loader)}")
+    print(f"Max epochs: {args.epochs}")
+    print(f"Early stopping patience: {args.patience}")
+    print(f"Early stopping min_delta: {args.min_delta}")
 
     best_val_loss = float("inf")
+    best_epoch = 0
+    epochs_without_improvement = 0
 
     for epoch in range(1, args.epochs + 1):
         model.train()
@@ -157,10 +167,12 @@ def main() -> None:
             f"val_loss={val_loss:.6f} time={elapsed:.1f}s"
         )
 
-        if val_loss < best_val_loss:
+        if val_loss < best_val_loss - args.min_delta:
             best_val_loss = val_loss
+            best_epoch = epoch
+            epochs_without_improvement = 0
+
             checkpoint_path = args.checkpoint
-            import os
             os.makedirs(os.path.dirname(checkpoint_path) or ".", exist_ok=True)
             torch.save(
                 {
@@ -172,6 +184,24 @@ def main() -> None:
                 checkpoint_path,
             )
             print(f"Saved best checkpoint: {checkpoint_path}")
+        else:
+            epochs_without_improvement += 1
+            print(
+                f"No meaningful validation improvement: "
+                f"{epochs_without_improvement}/{args.patience}"
+            )
+
+            if epochs_without_improvement >= args.patience:
+                print(
+                    f"Early stopping triggered at epoch {epoch}. "
+                    f"Best epoch: {best_epoch}, best val_loss: {best_val_loss:.6f}"
+                )
+                break
+
+    print(
+        f"Training finished. Best epoch: {best_epoch}, "
+        f"best val_loss: {best_val_loss:.6f}"
+    )
 
 
 if __name__ == "__main__":
