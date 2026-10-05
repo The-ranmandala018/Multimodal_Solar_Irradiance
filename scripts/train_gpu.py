@@ -1,17 +1,12 @@
 """GPU training entry point for the multimodal Folsom irradiance model.
 
-Pipeline:
-    Folsom 10-channel projection -> CNN -> 256-D
-    40 x 7 weather history -> LSTM -> 128-D
-    concatenation -> 384-D -> regression -> k-index forecast
+Supports resumable training both between epochs and within an epoch. Mid-epoch
+checkpoints periodically save the model/optimizer state, accumulated loss,
+batch position, and the epoch's DataLoader seed so an interrupted epoch can be
+reconstructed and continued.
 
 The Folsom preprocessing/calibration remains CPU-side because the original
 pipeline uses NumPy/OpenCV-style operations and must remain unchanged.
-Model forward/backward, loss, and optimizer work are moved to CUDA when
-available.
-
-This script is intended for the real training stage after 2014-2016
-calibration is complete and the DataLoader batch smoke test passes.
 """
 
 from __future__ import annotations
@@ -19,8 +14,10 @@ from __future__ import annotations
 import argparse
 import csv
 import os
+import random
 import time
 
+import numpy as np
 import torch
 from torch import nn
 from torch.amp import GradScaler, autocast
@@ -35,23 +32,100 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--num-workers", type=int, default=4)
     parser.add_argument("--lr", type=float, default=1e-4)
-    parser.add_argument("--patience", type=int, default=5,
-                        help="Stop after this many consecutive epochs without meaningful validation improvement.")
-    parser.add_argument("--min-delta", type=float, default=1e-4,
-                        help="Minimum validation-loss decrease required to reset early-stopping patience.")
-    parser.add_argument("--max-train-batches", type=int, default=0,
-                        help="0 means the full training loader.")
-    parser.add_argument("--checkpoint", type=str,
-                        default="experiments/baseline_lstm_cnn/checkpoints/best_model.pt")
-    parser.add_argument("--experiment-dir", type=str,
-                        default="experiments/baseline_lstm_cnn")
-    parser.add_argument("--resume", action="store_true",
-                        help="Resume from the latest checkpoint if it exists.")
+    parser.add_argument(
+        "--patience", type=int, default=5,
+        help="Stop after this many consecutive epochs without meaningful validation improvement.",
+    )
+    parser.add_argument(
+        "--min-delta", type=float, default=1e-4,
+        help="Minimum validation-loss decrease required to reset early-stopping patience.",
+    )
+    parser.add_argument(
+        "--max-train-batches", type=int, default=0,
+        help="0 means the full training loader.",
+    )
+    parser.add_argument(
+        "--checkpoint", type=str,
+        default="experiments/baseline_lstm_cnn/checkpoints/best_model.pt",
+    )
+    parser.add_argument(
+        "--experiment-dir", type=str,
+        default="experiments/baseline_lstm_cnn",
+    )
+    parser.add_argument(
+        "--resume", action="store_true",
+        help="Resume from the latest checkpoint if it exists.",
+    )
+    parser.add_argument(
+        "--checkpoint-every-batches", type=int, default=500,
+        help="Save a resumable checkpoint every N training batches.",
+    )
     return parser.parse_args()
+
+
+def _rng_state() -> dict:
+    state = {
+        "torch_rng_state": torch.get_rng_state(),
+        "python_rng_state": random.getstate(),
+        "numpy_rng_state": np.random.get_state(),
+    }
+    if torch.cuda.is_available():
+        state["cuda_rng_state_all"] = torch.cuda.get_rng_state_all()
+    return state
+
+
+def _restore_rng_state(state: dict) -> None:
+    if "torch_rng_state" in state:
+        torch.set_rng_state(state["torch_rng_state"])
+    if "python_rng_state" in state:
+        random.setstate(state["python_rng_state"])
+    if "numpy_rng_state" in state:
+        np.random.set_state(state["numpy_rng_state"])
+    if torch.cuda.is_available() and "cuda_rng_state_all" in state:
+        torch.cuda.set_rng_state_all(state["cuda_rng_state_all"])
+
+
+def _save_mid_epoch_checkpoint(
+    path: str,
+    *,
+    epoch: int,
+    batch_idx: int,
+    running_loss: float,
+    batches: int,
+    epoch_seed: int,
+    model: nn.Module,
+    optimizer: torch.optim.Optimizer,
+    scaler: GradScaler,
+    best_val_loss: float,
+    best_epoch: int,
+    epochs_without_improvement: int,
+) -> None:
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    torch.save(
+        {
+            "checkpoint_type": "mid_epoch",
+            "epoch": epoch,
+            "batch_idx": batch_idx,
+            "running_loss": running_loss,
+            "batches": batches,
+            "epoch_seed": epoch_seed,
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict(),
+            "scaler_state_dict": scaler.state_dict(),
+            "best_val_loss": best_val_loss,
+            "best_epoch": best_epoch,
+            "epochs_without_improvement": epochs_without_improvement,
+            "rng_state": _rng_state(),
+        },
+        path,
+    )
 
 
 def main() -> None:
     args = parse_args()
+
+    if args.checkpoint_every_batches < 1:
+        raise ValueError("--checkpoint-every-batches must be >= 1")
 
     if torch.cuda.is_available():
         device = torch.device("cuda")
@@ -100,49 +174,105 @@ def main() -> None:
     print(f"Max epochs: {args.epochs}")
     print(f"Early stopping patience: {args.patience}")
     print(f"Early stopping min_delta: {args.min_delta}")
+    print(f"Mid-epoch checkpoint interval: {args.checkpoint_every_batches} batches")
 
     experiment_dir = args.experiment_dir
     logs_dir = os.path.join(experiment_dir, "logs")
     plots_dir = os.path.join(experiment_dir, "plots")
+    checkpoints_dir = os.path.join(experiment_dir, "checkpoints")
     os.makedirs(logs_dir, exist_ok=True)
     os.makedirs(plots_dir, exist_ok=True)
+    os.makedirs(checkpoints_dir, exist_ok=True)
 
     history_path = os.path.join(logs_dir, "training_history.csv")
-    last_checkpoint_path = os.path.join(
-        experiment_dir, "checkpoints", "last_checkpoint.pt"
-    )
+    last_checkpoint_path = os.path.join(checkpoints_dir, "last_checkpoint.pt")
+    mid_checkpoint_path = os.path.join(checkpoints_dir, "mid_epoch_checkpoint.pt")
 
     start_epoch = 1
+    resume_batch = 0
+    resume_running_loss = 0.0
+    resume_batches = 0
+    resume_epoch_seed = None
     best_val_loss = float("inf")
     best_epoch = 0
     epochs_without_improvement = 0
 
-    if args.resume and os.path.exists(last_checkpoint_path):
-        checkpoint = torch.load(last_checkpoint_path, map_location=device)
+    if args.resume and os.path.exists(mid_checkpoint_path):
+        checkpoint = torch.load(mid_checkpoint_path, map_location=device, weights_only=False)
         model.load_state_dict(checkpoint["model_state_dict"])
         optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+        if "scaler_state_dict" in checkpoint:
+            scaler.load_state_dict(checkpoint["scaler_state_dict"])
+
+        start_epoch = int(checkpoint["epoch"])
+        resume_batch = int(checkpoint["batch_idx"])
+        resume_running_loss = float(checkpoint.get("running_loss", 0.0))
+        resume_batches = int(checkpoint.get("batches", resume_batch))
+        resume_epoch_seed = int(checkpoint["epoch_seed"])
+        best_val_loss = float(checkpoint.get("best_val_loss", float("inf")))
+        best_epoch = int(checkpoint.get("best_epoch", 0))
+        epochs_without_improvement = int(checkpoint.get("epochs_without_improvement", 0))
+        _restore_rng_state(checkpoint.get("rng_state", {}))
+
+        print(
+            f"Resuming from middle of epoch {start_epoch}: "
+            f"after batch {resume_batch}/{len(train_loader)}."
+        )
+    elif args.resume and os.path.exists(last_checkpoint_path):
+        checkpoint = torch.load(last_checkpoint_path, map_location=device, weights_only=False)
+        model.load_state_dict(checkpoint["model_state_dict"])
+        optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+        if "scaler_state_dict" in checkpoint:
+            scaler.load_state_dict(checkpoint["scaler_state_dict"])
+
         start_epoch = int(checkpoint["epoch"]) + 1
         best_val_loss = float(checkpoint.get("best_val_loss", float("inf")))
         best_epoch = int(checkpoint.get("best_epoch", 0))
         epochs_without_improvement = int(
             checkpoint.get("epochs_without_improvement", 0)
         )
+        _restore_rng_state(checkpoint.get("rng_state", {}))
         print(
-            f"Resumed from epoch {checkpoint['epoch']}. "
+            f"Resumed from completed epoch {checkpoint['epoch']}. "
             f"Continuing at epoch {start_epoch}."
         )
     elif not args.resume:
         with open(history_path, "w", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow(["epoch", "train_loss", "val_loss", "epoch_seconds"])
+            csv.writer(f).writerow(
+                ["epoch", "train_loss", "val_loss", "epoch_seconds"]
+            )
 
     for epoch in range(start_epoch, args.epochs + 1):
         model.train()
-        running_loss = 0.0
-        batches = 0
         start = time.perf_counter()
 
+        if epoch == start_epoch and resume_batch > 0:
+            epoch_seed = resume_epoch_seed
+            running_loss = resume_running_loss
+            batches = resume_batches
+            skip_batches = resume_batch
+        else:
+            epoch_seed = int(torch.randint(0, 2**31 - 1, (1,)).item())
+            running_loss = 0.0
+            batches = 0
+            skip_batches = 0
+
+        # The dataset's training loader is shuffled. Resetting the global torch
+        # seed immediately before iterator creation reconstructs the same
+        # RandomSampler order for a resumed epoch.
+        torch.manual_seed(epoch_seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(epoch_seed)
+
+        print(
+            f"Epoch {epoch}: starting at batch "
+            f"{skip_batches + 1 if skip_batches else 1}/{len(train_loader)}"
+        )
+
         for batch_idx, (images, weather, targets, _) in enumerate(train_loader, start=1):
+            if batch_idx <= skip_batches:
+                continue
+
             if args.max_train_batches and batch_idx > args.max_train_batches:
                 break
 
@@ -176,6 +306,32 @@ def main() -> None:
                         f"loss={loss.item():.6f}"
                     )
 
+            if batch_idx % args.checkpoint_every_batches == 0:
+                _save_mid_epoch_checkpoint(
+                    mid_checkpoint_path,
+                    epoch=epoch,
+                    batch_idx=batch_idx,
+                    running_loss=running_loss,
+                    batches=batches,
+                    epoch_seed=epoch_seed,
+                    model=model,
+                    optimizer=optimizer,
+                    scaler=scaler,
+                    best_val_loss=best_val_loss,
+                    best_epoch=best_epoch,
+                    epochs_without_improvement=epochs_without_improvement,
+                )
+                print(
+                    f"Saved mid-epoch checkpoint: epoch={epoch}, "
+                    f"batch={batch_idx}"
+                )
+
+        # Reset resume-only state after completing the resumed epoch.
+        resume_batch = 0
+        resume_running_loss = 0.0
+        resume_batches = 0
+        resume_epoch_seed = None
+
         train_loss = running_loss / max(batches, 1)
 
         model.eval()
@@ -204,8 +360,9 @@ def main() -> None:
         )
 
         with open(history_path, "a", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow([epoch, f"{train_loss:.8f}", f"{val_loss:.8f}", f"{elapsed:.3f}"])
+            csv.writer(f).writerow(
+                [epoch, f"{train_loss:.8f}", f"{val_loss:.8f}", f"{elapsed:.3f}"]
+            )
 
         improved = val_loss < best_val_loss - args.min_delta
 
@@ -222,6 +379,7 @@ def main() -> None:
                     "model_state_dict": model.state_dict(),
                     "optimizer_state_dict": optimizer.state_dict(),
                     "val_loss": val_loss,
+                    "rng_state": _rng_state(),
                 },
                 checkpoint_path,
             )
@@ -242,16 +400,23 @@ def main() -> None:
 
         torch.save(
             {
+                "checkpoint_type": "epoch_complete",
                 "epoch": epoch,
                 "model_state_dict": model.state_dict(),
                 "optimizer_state_dict": optimizer.state_dict(),
+                "scaler_state_dict": scaler.state_dict(),
                 "best_val_loss": best_val_loss,
                 "best_epoch": best_epoch,
                 "epochs_without_improvement": epochs_without_improvement,
+                "rng_state": _rng_state(),
             },
             last_checkpoint_path,
         )
         print(f"Saved latest checkpoint: {last_checkpoint_path}")
+
+        # An epoch is complete, so the mid-epoch checkpoint is no longer needed.
+        if os.path.exists(mid_checkpoint_path):
+            os.remove(mid_checkpoint_path)
 
     try:
         import matplotlib.pyplot as plt
