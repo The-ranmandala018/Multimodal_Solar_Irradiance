@@ -45,6 +45,8 @@ def parse_args() -> argparse.Namespace:
                         default="experiments/baseline_lstm_cnn/checkpoints/best_model.pt")
     parser.add_argument("--experiment-dir", type=str,
                         default="experiments/baseline_lstm_cnn")
+    parser.add_argument("--resume", action="store_true",
+                        help="Resume from the latest checkpoint if it exists.")
     return parser.parse_args()
 
 
@@ -106,15 +108,35 @@ def main() -> None:
     os.makedirs(plots_dir, exist_ok=True)
 
     history_path = os.path.join(logs_dir, "training_history.csv")
-    with open(history_path, "w", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(["epoch", "train_loss", "val_loss", "epoch_seconds"])
+    last_checkpoint_path = os.path.join(
+        experiment_dir, "checkpoints", "last_checkpoint.pt"
+    )
 
+    start_epoch = 1
     best_val_loss = float("inf")
     best_epoch = 0
     epochs_without_improvement = 0
 
-    for epoch in range(1, args.epochs + 1):
+    if args.resume and os.path.exists(last_checkpoint_path):
+        checkpoint = torch.load(last_checkpoint_path, map_location=device)
+        model.load_state_dict(checkpoint["model_state_dict"])
+        optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+        start_epoch = int(checkpoint["epoch"]) + 1
+        best_val_loss = float(checkpoint.get("best_val_loss", float("inf")))
+        best_epoch = int(checkpoint.get("best_epoch", 0))
+        epochs_without_improvement = int(
+            checkpoint.get("epochs_without_improvement", 0)
+        )
+        print(
+            f"Resumed from epoch {checkpoint['epoch']}. "
+            f"Continuing at epoch {start_epoch}."
+        )
+    elif not args.resume:
+        with open(history_path, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["epoch", "train_loss", "val_loss", "epoch_seconds"])
+
+    for epoch in range(start_epoch, args.epochs + 1):
         model.train()
         running_loss = 0.0
         batches = 0
@@ -185,7 +207,9 @@ def main() -> None:
             writer = csv.writer(f)
             writer.writerow([epoch, f"{train_loss:.8f}", f"{val_loss:.8f}", f"{elapsed:.3f}"])
 
-        if val_loss < best_val_loss - args.min_delta:
+        improved = val_loss < best_val_loss - args.min_delta
+
+        if improved:
             best_val_loss = val_loss
             best_epoch = epoch
             epochs_without_improvement = 0
@@ -215,6 +239,19 @@ def main() -> None:
                     f"Best epoch: {best_epoch}, best val_loss: {best_val_loss:.6f}"
                 )
                 break
+
+        torch.save(
+            {
+                "epoch": epoch,
+                "model_state_dict": model.state_dict(),
+                "optimizer_state_dict": optimizer.state_dict(),
+                "best_val_loss": best_val_loss,
+                "best_epoch": best_epoch,
+                "epochs_without_improvement": epochs_without_improvement,
+            },
+            last_checkpoint_path,
+        )
+        print(f"Saved latest checkpoint: {last_checkpoint_path}")
 
     try:
         import matplotlib.pyplot as plt
