@@ -57,7 +57,7 @@ def parse_args() -> argparse.Namespace:
         help="Resume from the latest checkpoint if it exists.",
     )
     parser.add_argument(
-        "--checkpoint-every-batches", type=int, default=500,
+        "--checkpoint-every-batches", type=int, default=100,
         help="Save a resumable checkpoint every N training batches.",
     )
     return parser.parse_args()
