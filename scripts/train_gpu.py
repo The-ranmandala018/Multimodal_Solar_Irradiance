@@ -17,6 +17,7 @@ calibration is complete and the DataLoader batch smoke test passes.
 from __future__ import annotations
 
 import argparse
+import csv
 import os
 import time
 
@@ -41,7 +42,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-train-batches", type=int, default=0,
                         help="0 means the full training loader.")
     parser.add_argument("--checkpoint", type=str,
-                        default="checkpoints/multimodal_gpu_best.pt")
+                        default="experiments/baseline_lstm_cnn/checkpoints/best_model.pt")
+    parser.add_argument("--experiment-dir", type=str,
+                        default="experiments/baseline_lstm_cnn")
     return parser.parse_args()
 
 
@@ -95,6 +98,17 @@ def main() -> None:
     print(f"Max epochs: {args.epochs}")
     print(f"Early stopping patience: {args.patience}")
     print(f"Early stopping min_delta: {args.min_delta}")
+
+    experiment_dir = args.experiment_dir
+    logs_dir = os.path.join(experiment_dir, "logs")
+    plots_dir = os.path.join(experiment_dir, "plots")
+    os.makedirs(logs_dir, exist_ok=True)
+    os.makedirs(plots_dir, exist_ok=True)
+
+    history_path = os.path.join(logs_dir, "training_history.csv")
+    with open(history_path, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["epoch", "train_loss", "val_loss", "epoch_seconds"])
 
     best_val_loss = float("inf")
     best_epoch = 0
@@ -167,6 +181,10 @@ def main() -> None:
             f"val_loss={val_loss:.6f} time={elapsed:.1f}s"
         )
 
+        with open(history_path, "a", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow([epoch, f"{train_loss:.8f}", f"{val_loss:.8f}", f"{elapsed:.3f}"])
+
         if val_loss < best_val_loss - args.min_delta:
             best_val_loss = val_loss
             best_epoch = epoch
@@ -198,6 +216,34 @@ def main() -> None:
                 )
                 break
 
+    try:
+        import matplotlib.pyplot as plt
+
+        epochs, train_losses, val_losses = [], [], []
+        with open(history_path, newline="") as f:
+            for row in csv.DictReader(f):
+                epochs.append(int(row["epoch"]))
+                train_losses.append(float(row["train_loss"]))
+                val_losses.append(float(row["val_loss"]))
+
+        if epochs:
+            plt.figure(figsize=(8, 5))
+            plt.plot(epochs, train_losses, label="Training loss")
+            plt.plot(epochs, val_losses, label="Validation loss")
+            plt.xlabel("Epoch")
+            plt.ylabel("MSE loss")
+            plt.title("Baseline CNN + LSTM Training")
+            plt.legend()
+            plt.grid(True, alpha=0.3)
+            plt.tight_layout()
+            plot_path = os.path.join(plots_dir, "training_validation_loss.png")
+            plt.savefig(plot_path, dpi=160)
+            plt.close()
+            print(f"Saved loss curve: {plot_path}")
+    except Exception as exc:
+        print(f"WARNING: Could not create loss plot: {exc}")
+
+    print(f"Training history: {history_path}")
     print(
         f"Training finished. Best epoch: {best_epoch}, "
         f"best val_loss: {best_val_loss:.6f}"
