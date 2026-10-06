@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 import pvlib
 import torch
-from torch.utils.data import DataLoader, Dataset, Subset
+from torch.utils.data import DataLoader, Dataset, DistributedSampler, Subset
 
 from preprocessing.folsom_adapter import FolsomPreprocessor, DEFAULT_IMAGE_ROOT
 from .chrono import chronological_year_split
@@ -283,6 +283,41 @@ def get_data_loaders(config):
 
     batch_size = int(config["data"].get("batch_size", 16))
     num_workers = int(config["data"].get("num_workers", 4))
+    distributed = bool(config["data"].get("distributed", False))
+    rank = int(config["data"].get("rank", 0))
+    world_size = int(config["data"].get("world_size", 1))
+
+    train_dataset = Subset(dataset, train_idx)
+    val_dataset = Subset(dataset, val_idx)
+    test_dataset = Subset(dataset, test_idx)
+
+    train_sampler = None
+    val_sampler = None
+    test_sampler = None
+    if distributed:
+        if world_size < 2:
+            raise ValueError("Distributed data loading requires world_size >= 2.")
+        train_sampler = DistributedSampler(
+            train_dataset,
+            num_replicas=world_size,
+            rank=rank,
+            shuffle=True,
+            drop_last=False,
+        )
+        val_sampler = DistributedSampler(
+            val_dataset,
+            num_replicas=world_size,
+            rank=rank,
+            shuffle=False,
+            drop_last=False,
+        )
+        test_sampler = DistributedSampler(
+            test_dataset,
+            num_replicas=world_size,
+            rank=rank,
+            shuffle=False,
+            drop_last=False,
+        )
 
     kwargs = {
         "num_workers": num_workers,
@@ -293,7 +328,25 @@ def get_data_loaders(config):
         kwargs["prefetch_factor"] = int(config["data"].get("prefetch_factor", 2))
 
     return (
-        DataLoader(Subset(dataset, train_idx), batch_size=batch_size, shuffle=True, **kwargs),
-        DataLoader(Subset(dataset, val_idx), batch_size=batch_size, shuffle=False, **kwargs),
-        DataLoader(Subset(dataset, test_idx), batch_size=batch_size, shuffle=False, **kwargs),
+        DataLoader(
+            train_dataset,
+            batch_size=batch_size,
+            shuffle=(train_sampler is None),
+            sampler=train_sampler,
+            **kwargs,
+        ),
+        DataLoader(
+            val_dataset,
+            batch_size=batch_size,
+            shuffle=False,
+            sampler=val_sampler,
+            **kwargs,
+        ),
+        DataLoader(
+            test_dataset,
+            batch_size=batch_size,
+            shuffle=False,
+            sampler=test_sampler,
+            **kwargs,
+        ),
     )
