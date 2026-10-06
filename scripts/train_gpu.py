@@ -76,13 +76,26 @@ def _rng_state() -> dict:
 
 def _restore_rng_state(state: dict) -> None:
     if "torch_rng_state" in state:
-        torch.set_rng_state(state["torch_rng_state"])
+        # Checkpoints created by different PyTorch versions can deserialize
+        # the RNG state as a generic uint8 Tensor. Convert explicitly to the
+        # ByteTensor expected by torch.set_rng_state().
+        torch_state = torch.as_tensor(
+            state["torch_rng_state"], dtype=torch.uint8, device="cpu"
+        )
+        torch.set_rng_state(torch_state)
+
     if "python_rng_state" in state:
         random.setstate(state["python_rng_state"])
+
     if "numpy_rng_state" in state:
         np.random.set_state(state["numpy_rng_state"])
+
     if torch.cuda.is_available() and "cuda_rng_state_all" in state:
-        torch.cuda.set_rng_state_all(state["cuda_rng_state_all"])
+        cuda_states = [
+            torch.as_tensor(s, dtype=torch.uint8, device="cpu")
+            for s in state["cuda_rng_state_all"]
+        ]
+        torch.cuda.set_rng_state_all(cuda_states)
 
 
 def _save_mid_epoch_checkpoint(
