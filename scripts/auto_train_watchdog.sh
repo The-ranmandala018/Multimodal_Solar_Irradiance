@@ -8,6 +8,7 @@ set -u
 PROJECT_DIR="/storage2/CV_Irradiance/Multimodal_Solar_Irradiance"
 CONDA_ENV="solar_gpu"
 GPU_ID="1"
+GPU_IDS="0,1"
 
 LOG_DIR="$PROJECT_DIR/experiments/baseline_lstm_cnn/logs"
 CHECKPOINT="$PROJECT_DIR/experiments/baseline_lstm_cnn/checkpoints/last_checkpoint.pt"
