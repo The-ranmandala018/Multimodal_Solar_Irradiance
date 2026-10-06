@@ -19,6 +19,8 @@ import time
 
 import numpy as np
 import torch
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
 from torch import nn
 from torch.amp import GradScaler, autocast
 
@@ -55,6 +57,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--resume", action="store_true",
         help="Resume from the latest checkpoint if it exists.",
+    )
+    parser.add_argument(
+        "--ddp", action="store_true",
+        help="Use all GPUs launched by torchrun with DistributedDataParallel.",
     )
     parser.add_argument(
         "--checkpoint-every-batches", type=int, default=100,
@@ -137,16 +143,39 @@ def _save_mid_epoch_checkpoint(
 def main() -> None:
     args = parse_args()
 
+    ddp = args.ddp
+    if ddp:
+        if not torch.cuda.is_available():
+            raise RuntimeError("DDP training requires CUDA.")
+        if not dist.is_available():
+            raise RuntimeError("torch.distributed is not available.")
+        if not dist.is_initialized():
+            dist.init_process_group(backend="nccl")
+        rank = dist.get_rank()
+        world_size = dist.get_world_size()
+        local_rank = int(os.environ.get("LOCAL_RANK", rank))
+        device = torch.device("cuda", local_rank)
+        torch.cuda.set_device(device)
+    else:
+        rank = 0
+        world_size = 1
+        local_rank = 0
+
+    is_main_process = rank == 0
+
     if args.checkpoint_every_batches < 1:
         raise ValueError("--checkpoint-every-batches must be >= 1")
 
-    if torch.cuda.is_available():
-        device = torch.device("cuda")
-        print(f"CUDA available: {torch.cuda.get_device_name(0)}")
-        print(f"CUDA device count: {torch.cuda.device_count()}")
-    else:
-        device = torch.device("cpu")
-        print("WARNING: CUDA is not available; training will run on CPU.")
+    if not ddp:
+        if torch.cuda.is_available():
+            device = torch.device("cuda")
+            print(f"CUDA available: {torch.cuda.get_device_name(0)}")
+            print(f"CUDA device count: {torch.cuda.device_count()}")
+        else:
+            device = torch.device("cpu")
+            print("WARNING: CUDA is not available; training will run on CPU.")
+    elif is_main_process:
+        print(f"DDP enabled: {world_size} GPUs, local rank {local_rank}")
 
     config = {
         "data": {
@@ -161,6 +190,9 @@ def main() -> None:
             "batch_size": args.batch_size,
             "num_workers": args.num_workers,
             "prefetch_factor": 2,
+            "distributed": ddp,
+            "rank": rank,
+            "world_size": world_size,
         },
         "model": {
             "horizons": [10],
@@ -174,20 +206,24 @@ def main() -> None:
     train_loader, val_loader, _ = get_data_loaders(config)
 
     model = MultimodalSolarForecastModel().to(device)
+    if ddp:
+        model = DDP(model, device_ids=[local_rank], output_device=local_rank)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     criterion = nn.MSELoss()
 
     use_amp = device.type == "cuda"
     scaler = GradScaler("cuda", enabled=use_amp)
 
-    print(f"Device: {device}")
-    print(f"AMP: {use_amp}")
-    print(f"Train batches: {len(train_loader)}")
-    print(f"Validation batches: {len(val_loader)}")
-    print(f"Max epochs: {args.epochs}")
-    print(f"Early stopping patience: {args.patience}")
-    print(f"Early stopping min_delta: {args.min_delta}")
-    print(f"Mid-epoch checkpoint interval: {args.checkpoint_every_batches} batches")
+    if is_main_process:
+        print(f"Device: {device}")
+        print(f"Distributed: {ddp} (world_size={world_size})")
+        print(f"AMP: {use_amp}")
+        print(f"Train batches per rank: {len(train_loader)}")
+        print(f"Validation batches per rank: {len(val_loader)}")
+        print(f"Max epochs: {args.epochs}")
+        print(f"Early stopping patience: {args.patience}")
+        print(f"Early stopping min_delta: {args.min_delta}")
+        print(f"Mid-epoch checkpoint interval: {args.checkpoint_every_batches} batches")
 
     experiment_dir = args.experiment_dir
     logs_dir = os.path.join(experiment_dir, "logs")
@@ -209,6 +245,15 @@ def main() -> None:
     best_val_loss = float("inf")
     best_epoch = 0
     epochs_without_improvement = 0
+
+    if ddp and args.resume and os.path.exists(mid_checkpoint_path):
+        raise RuntimeError(
+            "A single-GPU mid-epoch checkpoint exists. Finish Epoch 1 with "
+            "the existing single-GPU resume first. DDP cannot safely preserve "
+            "that mid-epoch sample position because samples are partitioned "
+            "across ranks. After an epoch-complete checkpoint exists, resume "
+            "with --ddp."
+        )
 
     if args.resume and os.path.exists(mid_checkpoint_path):
         checkpoint = torch.load(mid_checkpoint_path, map_location=device, weights_only=False)
@@ -277,8 +322,12 @@ def main() -> None:
         if torch.cuda.is_available():
             torch.cuda.manual_seed_all(epoch_seed)
 
-        print(
-            f"Epoch {epoch}: starting at batch "
+        if ddp and hasattr(train_loader.sampler, "set_epoch"):
+            train_loader.sampler.set_epoch(epoch)
+
+        if is_main_process:
+            print(
+                f"Epoch {epoch}: starting at batch "
             f"{skip_batches + 1 if skip_batches else 1}/{len(train_loader)}"
         )
 
@@ -306,7 +355,7 @@ def main() -> None:
             running_loss += loss.item()
             batches += 1
 
-            if batch_idx == 1 or batch_idx % 10 == 0:
+            if is_main_process and (batch_idx == 1 or batch_idx % 10 == 0):
                 if device.type == "cuda":
                     mem = torch.cuda.memory_allocated(device) / (1024 ** 3)
                     print(
@@ -319,7 +368,7 @@ def main() -> None:
                         f"loss={loss.item():.6f}"
                     )
 
-            if batch_idx % args.checkpoint_every_batches == 0:
+            if is_main_process and batch_idx % args.checkpoint_every_batches == 0:
                 _save_mid_epoch_checkpoint(
                     mid_checkpoint_path,
                     epoch=epoch,
@@ -364,22 +413,34 @@ def main() -> None:
                 val_loss_sum += loss.item()
                 val_batches += 1
 
+        if ddp:
+            stats = torch.tensor(
+                [val_loss_sum, val_batches],
+                dtype=torch.float64,
+                device=device,
+            )
+            dist.all_reduce(stats, op=dist.ReduceOp.SUM)
+            val_loss_sum = stats[0].item()
+            val_batches = int(stats[1].item())
+
         val_loss = val_loss_sum / max(val_batches, 1)
         elapsed = time.perf_counter() - start
 
-        print(
+        if is_main_process:
+            print(
             f"Epoch {epoch}: train_loss={train_loss:.6f} "
             f"val_loss={val_loss:.6f} time={elapsed:.1f}s"
         )
 
-        with open(history_path, "a", newline="") as f:
-            csv.writer(f).writerow(
-                [epoch, f"{train_loss:.8f}", f"{val_loss:.8f}", f"{elapsed:.3f}"]
-            )
+        if is_main_process:
+            with open(history_path, "a", newline="") as f:
+                csv.writer(f).writerow(
+                    [epoch, f"{train_loss:.8f}", f"{val_loss:.8f}", f"{elapsed:.3f}"]
+                )
 
         improved = val_loss < best_val_loss - args.min_delta
 
-        if improved:
+        if is_main_process and improved:
             best_val_loss = val_loss
             best_epoch = epoch
             epochs_without_improvement = 0
@@ -397,7 +458,7 @@ def main() -> None:
                 checkpoint_path,
             )
             print(f"Saved best checkpoint: {checkpoint_path}")
-        else:
+        elif is_main_process:
             epochs_without_improvement += 1
             print(
                 f"No meaningful validation improvement: "
@@ -411,8 +472,21 @@ def main() -> None:
                 )
                 break
 
-        torch.save(
-            {
+        should_stop = False
+        if ddp:
+            stop_tensor = torch.tensor(
+                [1 if (is_main_process and epochs_without_improvement >= args.patience) else 0],
+                device=device,
+                dtype=torch.int32,
+            )
+            dist.broadcast(stop_tensor, src=0)
+            should_stop = bool(stop_tensor.item())
+        else:
+            should_stop = epochs_without_improvement >= args.patience
+
+        if is_main_process:
+            torch.save(
+                {
                 "checkpoint_type": "epoch_complete",
                 "epoch": epoch,
                 "model_state_dict": model.state_dict(),
@@ -425,11 +499,17 @@ def main() -> None:
             },
             last_checkpoint_path,
         )
-        print(f"Saved latest checkpoint: {last_checkpoint_path}")
+            print(f"Saved latest checkpoint: {last_checkpoint_path}")
+
+        if ddp:
+            dist.barrier()
 
         # An epoch is complete, so the mid-epoch checkpoint is no longer needed.
-        if os.path.exists(mid_checkpoint_path):
+        if is_main_process and os.path.exists(mid_checkpoint_path):
             os.remove(mid_checkpoint_path)
+
+        if should_stop:
+            break
 
     try:
         import matplotlib.pyplot as plt
@@ -459,10 +539,14 @@ def main() -> None:
         print(f"WARNING: Could not create loss plot: {exc}")
 
     print(f"Training history: {history_path}")
-    print(
-        f"Training finished. Best epoch: {best_epoch}, "
-        f"best val_loss: {best_val_loss:.6f}"
-    )
+    if is_main_process:
+        print(
+            f"Training finished. Best epoch: {best_epoch}, "
+            f"best val_loss: {best_val_loss:.6f}"
+        )
+
+    if ddp:
+        dist.destroy_process_group()
 
 
 if __name__ == "__main__":
