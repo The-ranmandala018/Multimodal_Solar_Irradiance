@@ -394,6 +394,12 @@ def main() -> None:
         resume_batches = 0
         resume_epoch_seed = None
 
+        if ddp:
+            train_stats = torch.tensor([running_loss, batches], dtype=torch.float64, device=device)
+            dist.all_reduce(train_stats, op=dist.ReduceOp.SUM)
+            running_loss = train_stats[0].item()
+            batches = int(train_stats[1].item())
+
         train_loss = running_loss / max(batches, 1)
 
         model.eval()
@@ -470,7 +476,6 @@ def main() -> None:
                     f"Early stopping triggered at epoch {epoch}. "
                     f"Best epoch: {best_epoch}, best val_loss: {best_val_loss:.6f}"
                 )
-                break
 
         should_stop = False
         if ddp:
