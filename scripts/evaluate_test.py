@@ -50,7 +50,7 @@ def setup_distributed():
         local_rank = int(os.environ["LOCAL_RANK"])
         rank = int(os.environ["RANK"])
         torch.cuda.set_device(local_rank)
-        dist.init_process_group(backend="nccl")
+        dist.init_process_group(backend="nccl", device_id=torch.device("cuda", local_rank))
         device = torch.device("cuda", local_rank)
     else:
         rank = 0
@@ -264,10 +264,9 @@ def main():
             y_ghi_pred.extend((pred * cs).tolist())
             y_ghi_true.extend((true * cs).tolist())
 
-            processed_position = position + len(y_k_pred) - len(y_k_true) + 0
-            # The two lists always grow equally; calculate progress from
-            # the number of samples accumulated in this resumed segment.
-            processed_position = position + len(y_k_true)
+            # The arrays include both restored predictions and this run's new
+            # predictions, so their length is the absolute local sample position.
+            processed_position = len(y_k_true)
 
             if (
                 batch_idx % args.checkpoint_every_batches == 0
