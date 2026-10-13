@@ -23,6 +23,13 @@ from __future__ import annotations
 import argparse
 import csv
 from pathlib import Path
+import sys
+
+# Put the repo root ahead of site-packages so 'import datasets' resolves to this
+# project's datasets/ folder rather than the unrelated HuggingFace package of
+# the same name, which lives in some conda environments and would otherwise
+# shadow it when the script is run with 'python scripts/<this>.py'.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import numpy as np
 import pandas as pd
