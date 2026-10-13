@@ -66,6 +66,12 @@ def parse_args() -> argparse.Namespace:
         "--checkpoint-every-batches", type=int, default=100,
         help="Save a resumable checkpoint every N training batches.",
     )
+    parser.add_argument(
+        "--seed", type=int, default=None,
+        help="Seed Python, NumPy and PyTorch before the model is built, so "
+             "weight initialisation and the per-epoch shuffle seeds are "
+             "repeatable. Default: unseeded (the original baseline behaviour).",
+    )
     return parser.parse_args()
 
 
@@ -142,6 +148,15 @@ def _save_mid_epoch_checkpoint(
 
 def main() -> None:
     args = parse_args()
+
+    if args.seed is not None:
+        random.seed(args.seed)
+        np.random.seed(args.seed)
+        torch.manual_seed(args.seed)
+        torch.cuda.manual_seed_all(args.seed)
+        print(f"Global seed: {args.seed}")
+    else:
+        print("Global seed: none (unseeded run)")
 
     ddp = args.ddp
     if ddp:
