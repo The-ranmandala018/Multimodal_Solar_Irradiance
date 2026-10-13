@@ -1,0 +1,14 @@
+metric,value
+checkpoint,experiments/baseline_lstm_cnn/checkpoints/best_model.pt
+checkpoint_epoch,7
+checkpoint_val_loss,0.021045893563401637
+test_samples,224022
+k_index_MAE,0.0709638495593107
+k_index_RMSE,0.1272852876484151
+k_index_R2,0.8231693756307409
+GHI_clipped_target_MAE_Wm2,32.99652636410865
+GHI_clipped_target_RMSE_Wm2,65.93560446454285
+GHI_clipped_target_R2,0.9446545748689887
+GHI_clipped_target_mean_Wm2,468.04452316619904
+GHI_clipped_target_nMAE,0.0704986913229873
+GHI_clipped_target_nRMSE,0.14087464162277916
