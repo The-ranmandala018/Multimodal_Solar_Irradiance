@@ -1,0 +1,83 @@
+===== 2026-10-13 14:51:56 start: GPU 1, subset 20000, seed 0 =====
+--- 2026-10-13 14:51:56 running mode: real
+Device: cuda  (CPU runs will be slow)
+Building DataLoaders...
+Test batches: 28003
+Loaded checkpoint from epoch 7  val_loss=0.021045893563401637
+Scoring 20000 of 224022 test samples (seed=0)
+
+=== mode: real ===
+  [real] batch 1/2500  elapsed=0.0min
+  [real] batch 200/2500  elapsed=0.5min
+  [real] batch 400/2500  elapsed=0.9min
+  [real] batch 600/2500  elapsed=1.4min
+  [real] batch 800/2500  elapsed=1.8min
+  [real] batch 1000/2500  elapsed=2.3min
+  [real] batch 1200/2500  elapsed=2.8min
+  [real] batch 1400/2500  elapsed=3.2min
+  [real] batch 1600/2500  elapsed=3.7min
+  [real] batch 1800/2500  elapsed=4.1min
+  [real] batch 2000/2500  elapsed=4.6min
+  [real] batch 2200/2500  elapsed=5.0min
+  [real] batch 2400/2500  elapsed=5.5min
+real: n=20000 MAE=33.221 RMSE=67.634 MBE=-8.882 R2=0.9421
+
+Saved: /storage2/CV_Irradiance/Multimodal_Solar_Irradiance/experiments/baseline_lstm_cnn/evaluation/image_ablation_subset20000/real/image_ablation_metrics_subset20000.csv
+--- 2026-10-13 14:58:35 finished mode: real
+--- 2026-10-13 14:58:35 running mode: shuffled
+Device: cuda  (CPU runs will be slow)
+Building DataLoaders...
+Test batches: 28003
+Loaded checkpoint from epoch 7  val_loss=0.021045893563401637
+Scoring 20000 of 224022 test samples (seed=0)
+
+=== mode: shuffled ===
+  [shuffled] batch 1/2500  elapsed=0.0min
+  [shuffled] batch 200/2500  elapsed=0.9min
+  [shuffled] batch 400/2500  elapsed=1.7min
+  [shuffled] batch 600/2500  elapsed=2.5min
+  [shuffled] batch 800/2500  elapsed=3.3min
+  [shuffled] batch 1000/2500  elapsed=4.1min
+  [shuffled] batch 1200/2500  elapsed=4.9min
+  [shuffled] batch 1400/2500  elapsed=5.7min
+  [shuffled] batch 1600/2500  elapsed=6.5min
+  [shuffled] batch 1800/2500  elapsed=7.3min
+  [shuffled] batch 2000/2500  elapsed=8.0min
+  [shuffled] batch 2200/2500  elapsed=8.9min
+  [shuffled] batch 2400/2500  elapsed=9.7min
+shuffled: n=20000 MAE=78.907 RMSE=124.454 MBE=-15.356 R2=0.8041
+
+Saved: /storage2/CV_Irradiance/Multimodal_Solar_Irradiance/experiments/baseline_lstm_cnn/evaluation/image_ablation_subset20000/shuffled/image_ablation_metrics_subset20000.csv
+--- 2026-10-13 15:09:41 finished mode: shuffled
+--- 2026-10-13 15:09:41 running mode: zero
+Device: cuda  (CPU runs will be slow)
+Building DataLoaders...
+Test batches: 28003
+Loaded checkpoint from epoch 7  val_loss=0.021045893563401637
+Scoring 20000 of 224022 test samples (seed=0)
+
+=== mode: zero ===
+  [zero] batch 1/2500  elapsed=0.0min
+  [zero] batch 200/2500  elapsed=0.4min
+  [zero] batch 400/2500  elapsed=0.8min
+  [zero] batch 600/2500  elapsed=1.2min
+  [zero] batch 800/2500  elapsed=1.6min
+  [zero] batch 1000/2500  elapsed=2.0min
+  [zero] batch 1200/2500  elapsed=2.5min
+  [zero] batch 1400/2500  elapsed=2.9min
+  [zero] batch 1600/2500  elapsed=3.3min
+  [zero] batch 1800/2500  elapsed=3.8min
+  [zero] batch 2000/2500  elapsed=4.2min
+  [zero] batch 2200/2500  elapsed=4.6min
+  [zero] batch 2400/2500  elapsed=5.1min
+zero: n=20000 MAE=134.489 RMSE=162.193 MBE=-76.605 R2=0.6673
+
+Saved: /storage2/CV_Irradiance/Multimodal_Solar_Irradiance/experiments/baseline_lstm_cnn/evaluation/image_ablation_subset20000/zero/image_ablation_metrics_subset20000.csv
+--- 2026-10-13 15:15:56 finished mode: zero
+
+=== relative to real ===
+shuffled:  RMSE +56.82 W/m2  (+84.01% vs real)
+zero:  RMSE +94.56 W/m2  (+139.81% vs real)
+
+Saved: /storage2/CV_Irradiance/Multimodal_Solar_Irradiance/experiments/baseline_lstm_cnn/evaluation/image_ablation_metrics_subset20000.csv
+===== 2026-10-13 15:15:56 all modes done =====
