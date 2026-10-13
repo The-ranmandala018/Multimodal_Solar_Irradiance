@@ -25,7 +25,7 @@ from torch import nn
 from torch.amp import GradScaler, autocast
 
 from datasets.folsom_dataset import get_data_loaders
-from models.multimodal_model import MultimodalSolarForecastModel
+from models.multimodal_model import MODEL_TYPES, build_model, uses_images
 
 
 def parse_args() -> argparse.Namespace:
@@ -65,6 +65,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--checkpoint-every-batches", type=int, default=100,
         help="Save a resumable checkpoint every N training batches.",
+    )
+    parser.add_argument(
+        "--model", choices=sorted(MODEL_TYPES), default="cnn_lstm",
+        help="cnn_lstm (sky image + weather) or weather_only (no image; "
+             "images are not loaded, same samples and split).",
     )
     parser.add_argument(
         "--seed", type=int, default=None,
@@ -208,6 +213,7 @@ def main() -> None:
             "distributed": ddp,
             "rank": rank,
             "world_size": world_size,
+            "load_images": uses_images(args.model),
         },
         "model": {
             "horizons": [10],
@@ -220,7 +226,9 @@ def main() -> None:
     print("Building DataLoaders...")
     train_loader, val_loader, _ = get_data_loaders(config)
 
-    model = MultimodalSolarForecastModel().to(device)
+    model = build_model(args.model).to(device)
+    if is_main_process:
+        print(f"Model: {args.model}")
     if ddp:
         model = DDP(model, device_ids=[local_rank], output_device=local_rank)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
@@ -474,6 +482,7 @@ def main() -> None:
                     "model_state_dict": model.state_dict(),
                     "optimizer_state_dict": optimizer.state_dict(),
                     "val_loss": val_loss,
+                    "model_type": args.model,
                     "rng_state": _rng_state(),
                 },
                 checkpoint_path,
@@ -547,7 +556,7 @@ def main() -> None:
             plt.plot(epochs, val_losses, label="Validation loss")
             plt.xlabel("Epoch")
             plt.ylabel("MSE loss")
-            plt.title("Baseline CNN + LSTM Training")
+            plt.title(f"{args.model} training")
             plt.legend()
             plt.grid(True, alpha=0.3)
             plt.tight_layout()

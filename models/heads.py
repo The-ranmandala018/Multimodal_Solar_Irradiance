@@ -24,6 +24,7 @@ class BaselineRegressionHead(nn.Module):
         dropout: float = 0.3,
     ):
         super().__init__()
+        self.input_dim = input_dim
 
         self.network = nn.Sequential(
             nn.LayerNorm(input_dim),
@@ -40,9 +41,9 @@ class BaselineRegressionHead(nn.Module):
                 f"Expected a 2D tensor (B, D), got shape {tuple(x.shape)}"
             )
 
-        if x.shape[1] != 384:
+        if x.shape[1] != self.input_dim:
             raise ValueError(
-                f"Expected 384-D fused features, got {x.shape[1]}"
+                f"Expected {self.input_dim}-D features, got {x.shape[1]}"
             )
 
         return self.network(x)

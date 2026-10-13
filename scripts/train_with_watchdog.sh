@@ -7,6 +7,7 @@
 # Examples:
 #   scripts/train_with_watchdog.sh baseline_seed1 1                # same recipe as the baseline run
 #   scripts/train_with_watchdog.sh long_seed1 1 50 50              # 50 epochs, early stopping effectively off
+#   MODEL=weather_only scripts/train_with_watchdog.sh weather_only_seed0 0   # no sky image
 #
 # Recipe is identical to the original baseline run (single GPU, batch 8,
 # lr 1e-4, AdamW, MSE) so the results are comparable. Only the seed and the
@@ -24,7 +25,7 @@
 set -u
 
 if [ $# -lt 2 ]; then
-    sed -n '2,15p' "$0"
+    sed -n '2,16p' "$0"
     exit 1
 fi
 
@@ -36,6 +37,7 @@ PATIENCE="${4:-5}"
 PROJECT_DIR="/storage2/CV_Irradiance/Multimodal_Solar_Irradiance"
 CONDA_ENV="${CONDA_ENV:-solar_gpu}"
 GPU_ID="${GPU_ID:-1}"
+MODEL="${MODEL:-cnn_lstm}"   # cnn_lstm or weather_only
 
 if [ "$EXP_NAME" = "baseline_lstm_cnn" ]; then
     echo "Refusing to use baseline_lstm_cnn: that folder holds the original run."
@@ -66,7 +68,7 @@ conda activate "$CONDA_ENV"
 export PYTHONNOUSERSITE=1
 export PYTHONPATH="$PROJECT_DIR"
 
-echo "Experiment: $EXP_NAME  seed=$SEED  max_epochs=$EPOCHS  patience=$PATIENCE  GPU=$GPU_ID"
+echo "Experiment: $EXP_NAME  model=$MODEL  seed=$SEED  max_epochs=$EPOCHS  patience=$PATIENCE  GPU=$GPU_ID"
 echo "Log: $PROJECT_DIR/$LOG"
 
 while true; do
@@ -86,6 +88,7 @@ while true; do
         --patience "$PATIENCE" \
         --checkpoint-every-batches 100 \
         --seed "$SEED" \
+        --model "$MODEL" \
         --experiment-dir "$EXP_DIR" \
         --checkpoint "$EXP_DIR/checkpoints/best_model.pt" \
         $RESUME >> "$LOG" 2>&1

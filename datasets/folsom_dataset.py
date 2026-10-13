@@ -43,6 +43,9 @@ class FolsomDataset(Dataset):
         self.lat = float(data_cfg.get("latitude", 38.642))
         self.lon = float(data_cfg.get("longitude", -121.148))
         self.alt = float(data_cfg.get("altitude", 60.0))
+        # False for weather-only models: samples are still matched to images
+        # (so every model sees the same samples) but images are not processed.
+        self.load_images = bool(data_cfg.get("load_images", True))
 
         self.df = self._load_csv()
         self.df = self._add_solar_features(self.df)
@@ -218,11 +221,14 @@ class FolsomDataset(Dataset):
     def __getitem__(self, idx):
         image_path, dt = self.samples[idx]
 
-        processor = self._get_preprocessor(dt.year)
-        image = processor.process_image_to_tensor(
-            image_path,
-            month=dt.month,
-        ).float()
+        if self.load_images:
+            processor = self._get_preprocessor(dt.year)
+            image = processor.process_image_to_tensor(
+                image_path,
+                month=dt.month,
+            ).float()
+        else:
+            image = torch.zeros(1)  # placeholder; weather-only models ignore it
 
         sequence_times = [
             dt - timedelta(seconds=i * self.sampling_rate)

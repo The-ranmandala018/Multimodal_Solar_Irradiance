@@ -90,4 +90,63 @@ class MultimodalSolarForecastModel(nn.Module):
         return forecast
 
 
-__all__ = ["MultimodalSolarForecastModel"]
+class WeatherOnlyForecastModel(nn.Module):
+    """Weather-only baseline: the same LSTM and head, no sky image.
+
+    Takes the same (visual_input, temporal_input) arguments as the multimodal
+    model so the training and evaluation loops are unchanged; visual_input is
+    ignored.
+    """
+
+    def __init__(
+        self,
+        temporal_dim: int = 128,
+        hidden_dim: int = 256,
+        output_dim: int = 1,
+        dropout: float = 0.3,
+    ):
+        super().__init__()
+
+        self.temporal_encoder = BaselineTemporalEncoder(
+            input_dim=7,
+            hidden_dim=temporal_dim,
+        )
+
+        self.forecasting_head = BaselineRegressionHead(
+            input_dim=temporal_dim,
+            hidden_dim=hidden_dim,
+            output_dim=output_dim,
+            dropout=dropout,
+        )
+
+    def forward(
+        self,
+        visual_input: torch.Tensor,
+        temporal_input: torch.Tensor,
+    ) -> torch.Tensor:
+        return self.forecasting_head(self.temporal_encoder(temporal_input))
+
+
+MODEL_TYPES = {
+    "cnn_lstm": MultimodalSolarForecastModel,
+    "weather_only": WeatherOnlyForecastModel,
+}
+
+
+def build_model(model_type: str = "cnn_lstm") -> nn.Module:
+    """Build a model by name; see MODEL_TYPES."""
+    return MODEL_TYPES[model_type]()
+
+
+def uses_images(model_type: str) -> bool:
+    """Whether the dataset must load sky images for this model."""
+    return model_type != "weather_only"
+
+
+__all__ = [
+    "MultimodalSolarForecastModel",
+    "WeatherOnlyForecastModel",
+    "MODEL_TYPES",
+    "build_model",
+    "uses_images",
+]

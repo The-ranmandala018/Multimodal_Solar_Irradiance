@@ -21,7 +21,7 @@ import torch.distributed as dist
 from torch.utils.data import DataLoader, Subset
 
 from datasets.folsom_dataset import get_data_loaders
-from models.multimodal_model import MultimodalSolarForecastModel
+from models.multimodal_model import MODEL_TYPES, build_model, uses_images
 
 
 def parse_args():
@@ -34,6 +34,10 @@ def parse_args():
     p.add_argument("--num-workers", type=int, default=4)
     p.add_argument("--output-dir", default="experiments/baseline_lstm_cnn/evaluation")
     p.add_argument("--checkpoint-every-batches", type=int, default=100)
+    p.add_argument(
+        "--model", choices=sorted(MODEL_TYPES), default=None,
+        help="Model type. Default: read from the checkpoint, else cnn_lstm.",
+    )
     p.add_argument(
         "--reset-evaluation",
         action="store_true",
@@ -152,6 +156,7 @@ def make_config(args, distributed, rank, world_size):
             "distributed": distributed,
             "rank": rank,
             "world_size": world_size,
+            "load_images": uses_images(args.model),
         },
         "model": {"horizons": [10]},
         "training": {"val_split": 0.1},
@@ -171,6 +176,13 @@ def main():
         print(f"Checkpoint: {args.checkpoint}")
         print("Test split: chronological 2016")
         print("Progress checkpoints are saved independently for each rank.")
+
+    if args.model is None:
+        meta = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
+        args.model = meta.get("model_type", "cnn_lstm")
+        del meta
+    if rank == 0:
+        print(f"Model: {args.model}")
 
     config = make_config(args, distributed, rank, world_size)
     _, _, test_loader = get_data_loaders(config)
@@ -224,7 +236,7 @@ def main():
         prefetch_factor=2 if args.num_workers > 0 else None,
     )
 
-    model = MultimodalSolarForecastModel().to(device)
+    model = build_model(args.model).to(device)
     checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=False)
     load_state(model, checkpoint["model_state_dict"])
     model.eval()
