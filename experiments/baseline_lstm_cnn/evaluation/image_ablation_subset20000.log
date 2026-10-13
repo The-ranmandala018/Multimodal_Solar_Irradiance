@@ -81,3 +81,120 @@ zero:  RMSE +94.56 W/m2  (+139.81% vs real)
 
 Saved: /storage2/CV_Irradiance/Multimodal_Solar_Irradiance/experiments/baseline_lstm_cnn/evaluation/image_ablation_metrics_subset20000.csv
 ===== 2026-10-13 15:15:56 all modes done =====
+===== 2026-10-13 19:29:07 start: GPU 1, subset 20000, seed 0, modes: sametime stale10 stale30 stale60 =====
+--- 2026-10-13 19:29:07 running mode: sametime
+Device: cuda  (CPU runs will be slow)
+Building DataLoaders...
+Test batches: 28003
+Loaded checkpoint from epoch 7  val_loss=0.021045893563401637
+Scoring 20000 of 224022 test samples (seed=0)
+
+=== mode: sametime ===
+Borrowed image found for 20000 of 20000 samples (100.00%); the rest keep their real image.
+Day offset |d|: median 4, min 1, max 7
+  [sametime] batch 1/2500  elapsed=0.0min
+  [sametime] batch 200/2500  elapsed=0.7min
+  [sametime] batch 400/2500  elapsed=1.3min
+  [sametime] batch 600/2500  elapsed=1.9min
+  [sametime] batch 800/2500  elapsed=2.6min
+  [sametime] batch 1000/2500  elapsed=3.3min
+  [sametime] batch 1200/2500  elapsed=4.0min
+  [sametime] batch 1400/2500  elapsed=4.6min
+  [sametime] batch 1600/2500  elapsed=5.3min
+  [sametime] batch 1800/2500  elapsed=5.9min
+  [sametime] batch 2000/2500  elapsed=6.6min
+  [sametime] batch 2200/2500  elapsed=7.2min
+  [sametime] batch 2400/2500  elapsed=7.9min
+sametime: n=20000 MAE=68.719 RMSE=116.005 MBE=-12.783 R2=0.8298
+
+Saved: /storage2/CV_Irradiance/Multimodal_Solar_Irradiance/experiments/baseline_lstm_cnn/evaluation/image_ablation_subset20000/sametime/image_ablation_metrics_subset20000.csv
+--- 2026-10-13 19:38:21 finished mode: sametime
+--- 2026-10-13 19:38:21 running mode: stale10
+Device: cuda  (CPU runs will be slow)
+Building DataLoaders...
+Test batches: 28003
+Loaded checkpoint from epoch 7  val_loss=0.021045893563401637
+Scoring 20000 of 224022 test samples (seed=0)
+
+=== mode: stale10 ===
+Borrowed image found for 19992 of 20000 samples (99.96%); the rest keep their real image.
+  [stale10] batch 1/2500  elapsed=0.0min
+  [stale10] batch 200/2500  elapsed=0.6min
+  [stale10] batch 400/2500  elapsed=1.3min
+  [stale10] batch 600/2500  elapsed=1.9min
+  [stale10] batch 800/2500  elapsed=2.5min
+  [stale10] batch 1000/2500  elapsed=3.2min
+  [stale10] batch 1200/2500  elapsed=3.8min
+  [stale10] batch 1400/2500  elapsed=4.5min
+  [stale10] batch 1600/2500  elapsed=5.1min
+  [stale10] batch 1800/2500  elapsed=5.8min
+  [stale10] batch 2000/2500  elapsed=6.4min
+  [stale10] batch 2200/2500  elapsed=7.0min
+  [stale10] batch 2400/2500  elapsed=7.7min
+stale10: n=20000 MAE=34.898 RMSE=71.058 MBE=-8.127 R2=0.9361
+
+Saved: /storage2/CV_Irradiance/Multimodal_Solar_Irradiance/experiments/baseline_lstm_cnn/evaluation/image_ablation_subset20000/stale10/image_ablation_metrics_subset20000.csv
+--- 2026-10-13 19:47:21 finished mode: stale10
+--- 2026-10-13 19:47:21 running mode: stale30
+Device: cuda  (CPU runs will be slow)
+Building DataLoaders...
+Test batches: 28003
+Loaded checkpoint from epoch 7  val_loss=0.021045893563401637
+Scoring 20000 of 224022 test samples (seed=0)
+
+=== mode: stale30 ===
+Borrowed image found for 19983 of 20000 samples (99.92%); the rest keep their real image.
+  [stale30] batch 1/2500  elapsed=0.0min
+  [stale30] batch 200/2500  elapsed=0.7min
+  [stale30] batch 400/2500  elapsed=1.3min
+  [stale30] batch 600/2500  elapsed=2.0min
+  [stale30] batch 800/2500  elapsed=2.7min
+  [stale30] batch 1000/2500  elapsed=3.3min
+  [stale30] batch 1200/2500  elapsed=4.0min
+  [stale30] batch 1400/2500  elapsed=4.7min
+  [stale30] batch 1600/2500  elapsed=5.4min
+  [stale30] batch 1800/2500  elapsed=6.2min
+  [stale30] batch 2000/2500  elapsed=7.0min
+  [stale30] batch 2200/2500  elapsed=7.7min
+  [stale30] batch 2400/2500  elapsed=8.5min
+stale30: n=20000 MAE=36.515 RMSE=74.238 MBE=-8.087 R2=0.9303
+
+Saved: /storage2/CV_Irradiance/Multimodal_Solar_Irradiance/experiments/baseline_lstm_cnn/evaluation/image_ablation_subset20000/stale30/image_ablation_metrics_subset20000.csv
+--- 2026-10-13 19:57:15 finished mode: stale30
+--- 2026-10-13 19:57:15 running mode: stale60
+Device: cuda  (CPU runs will be slow)
+Building DataLoaders...
+Test batches: 28003
+Loaded checkpoint from epoch 7  val_loss=0.021045893563401637
+Scoring 20000 of 224022 test samples (seed=0)
+
+=== mode: stale60 ===
+Borrowed image found for 19967 of 20000 samples (99.83%); the rest keep their real image.
+  [stale60] batch 1/2500  elapsed=0.0min
+  [stale60] batch 200/2500  elapsed=0.7min
+  [stale60] batch 400/2500  elapsed=1.4min
+  [stale60] batch 600/2500  elapsed=2.0min
+  [stale60] batch 800/2500  elapsed=2.8min
+  [stale60] batch 1000/2500  elapsed=3.6min
+  [stale60] batch 1200/2500  elapsed=4.5min
+  [stale60] batch 1400/2500  elapsed=5.2min
+  [stale60] batch 1600/2500  elapsed=6.0min
+  [stale60] batch 1800/2500  elapsed=6.8min
+  [stale60] batch 2000/2500  elapsed=7.5min
+  [stale60] batch 2200/2500  elapsed=8.3min
+  [stale60] batch 2400/2500  elapsed=9.0min
+stale60: n=20000 MAE=38.131 RMSE=77.075 MBE=-8.632 R2=0.9249
+
+Saved: /storage2/CV_Irradiance/Multimodal_Solar_Irradiance/experiments/baseline_lstm_cnn/evaluation/image_ablation_subset20000/stale60/image_ablation_metrics_subset20000.csv
+--- 2026-10-13 20:07:41 finished mode: stale60
+
+=== relative to real ===
+sametime:  RMSE +48.37 W/m2  (+71.52% vs real)
+stale10:  RMSE +3.42 W/m2  (+5.06% vs real)
+stale30:  RMSE +6.60 W/m2  (+9.76% vs real)
+stale60:  RMSE +9.44 W/m2  (+13.96% vs real)
+shuffled:  RMSE +56.82 W/m2  (+84.01% vs real)
+zero:  RMSE +94.56 W/m2  (+139.81% vs real)
+
+Saved: /storage2/CV_Irradiance/Multimodal_Solar_Irradiance/experiments/baseline_lstm_cnn/evaluation/image_ablation_metrics_subset20000.csv
+===== 2026-10-13 20:07:41 all modes done =====

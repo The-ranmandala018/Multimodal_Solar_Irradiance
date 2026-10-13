@@ -8,6 +8,18 @@ three ways, and reports RMSE/MAE/MBE/R2 for each:
                from the whole 2016 test set (same weather, wrong sky)
   3. zero      every image replaced with a zero tensor (same weather, no sky)
 
+Controlled swaps, which change the clouds but keep the sun in about the
+same place (a random swap also changes sun position and time of day):
+
+  4. sametime  the image taken at the same UTC clock time on a random other
+               2016 day within +-N days (--sametime-max-days, default 7)
+  5. staleN    the image taken N minutes earlier on the same day
+               (stale10, stale30, stale60)
+
+  For 4-5 the borrowed image is processed with its own month's calibration.
+  If no image exists at the borrowed time, the sample keeps its real image;
+  the count is printed, and this can only make the error look smaller.
+
 Interpretation:
   * If shuffled/zero RMSE is close to real RMSE, the model is ignoring the
     images -- the weather branch is doing almost all the work.
@@ -28,6 +40,7 @@ import argparse
 import csv
 import sys
 import time
+from datetime import timedelta
 from pathlib import Path
 
 import numpy as np
@@ -54,7 +67,8 @@ def parse_args():
     )
     p.add_argument(
         "--mode",
-        choices=["all", "real", "shuffled", "zero"],
+        choices=["all", "real", "shuffled", "zero",
+                 "sametime", "stale10", "stale30", "stale60"],
         default="all",
     )
     p.add_argument(
@@ -64,6 +78,10 @@ def parse_args():
     p.add_argument(
         "--subset", type=int, default=0,
         help="Score this many randomly chosen test samples (0 = full test set).",
+    )
+    p.add_argument(
+        "--sametime-max-days", type=int, default=7,
+        help="sametime mode: borrow from a day at most this many days away.",
     )
     return p.parse_args()
 
@@ -98,13 +116,17 @@ class AblationView(Dataset):
                 from the whole test set (not a neighbour in the same batch,
                 whose sky would be nearly identical one minute apart)
       zero      a zero tensor of the same shape
+      sametime / staleN
+                the image at donors[j] = (path, time), processed with that
+                time's calibration; None keeps the real image
     """
 
-    def __init__(self, base, positions, mode, perm):
+    def __init__(self, base, positions, mode, perm, donors=None):
         self.base = base
         self.positions = positions
         self.mode = mode
         self.perm = perm
+        self.donors = donors
 
     def __len__(self):
         return len(self.positions)
@@ -116,7 +138,52 @@ class AblationView(Dataset):
             image = torch.zeros_like(image)
         elif self.mode == "shuffled":
             image = self.base[int(self.perm[i])][0]
+        elif self.donors is not None and self.donors[j] is not None:
+            path, when = self.donors[j]
+            processor = self.base.dataset._get_preprocessor(when.year)
+            image = processor.process_image_to_tensor(path, month=when.month).float()
         return image, weather, target, ghi_cs
+
+
+def find_donors(base, positions, mode, args):
+    """For each scored sample, the (image path, time) to borrow, or None.
+
+    sametime: same UTC clock time on a random other day within
+              +-args.sametime_max_days, staying inside the sample's year so
+              no training-year image is used. Days are tried in random order
+              until one has an image within the dataset's matching tolerance.
+    staleN:   the image N minutes before the sample's own time.
+    """
+    dataset, indices = base.dataset, base.indices
+    rng = np.random.default_rng([args.seed, 1])  # separate from subset/perm
+    days = [d for d in range(-args.sametime_max_days, args.sametime_max_days + 1) if d]
+    cache = {}
+    donors, offsets = [], []
+    for i in positions:
+        _, dt = dataset.samples[indices[i]]
+        if mode == "sametime":
+            tries = [dt + timedelta(days=int(d)) for d in rng.permutation(days)]
+        else:
+            tries = [dt - timedelta(minutes=int(mode[len("stale"):]))]
+        found = None
+        for when in tries:
+            if when.year != dt.year:
+                continue
+            path = dataset._closest_image(when, cache)
+            if path is not None:
+                found = (path, when)
+                offsets.append((when - dt).days if mode == "sametime" else 0)
+                break
+        donors.append(found)
+
+    n_found = sum(d is not None for d in donors)
+    print(f"Borrowed image found for {n_found} of {len(donors)} samples "
+          f"({100 * n_found / len(donors):.2f}%); the rest keep their real image.")
+    if mode == "sametime" and offsets:
+        gap = np.abs(np.array(offsets))
+        print(f"Day offset |d|: median {np.median(gap):.0f}, "
+              f"min {gap.min()}, max {gap.max()}")
+    return donors
 
 
 def make_derangement(n, rng):
@@ -132,8 +199,11 @@ def make_derangement(n, rng):
 
 
 def run_mode(model, base, positions, perm, mode, device, args):
+    donors = None
+    if mode == "sametime" or mode.startswith("stale"):
+        donors = find_donors(base, positions, mode, args)
     loader = DataLoader(
-        AblationView(base, positions, mode, perm),
+        AblationView(base, positions, mode, perm, donors),
         batch_size=args.batch_size,
         shuffle=False,
         num_workers=args.num_workers,

@@ -18,9 +18,14 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import pandas as pd
 
+# Plot order, mildest change first. Modes missing from the CSV are skipped.
 LABELS = {
     "real": "Real image",
-    "shuffled": "Shuffled image\n(another time)",
+    "stale10": "10 min older\n(same day)",
+    "stale30": "30 min older\n(same day)",
+    "stale60": "60 min older\n(same day)",
+    "sametime": "Same time,\nother day (±7 d)",
+    "shuffled": "Random other\ntime",
     "zero": "Blank image\n(all zeros)",
 }
 BAR = "#2a78d6"
@@ -55,7 +60,8 @@ def style_axis(ax):
 
 def main():
     args = parse_args()
-    abl = pd.read_csv(args.ablation_csv).set_index("mode").loc[["real", "shuffled", "zero"]]
+    abl = pd.read_csv(args.ablation_csv).set_index("mode")
+    abl = abl.loc[[m for m in LABELS if m in abl.index]]
     base = pd.read_csv(args.baselines_csv).set_index("set")
     n = int(abl["n"].iloc[0])
     tag = Path(args.ablation_csv).stem.replace("image_ablation_metrics_", "")
@@ -65,15 +71,18 @@ def main():
     rmse_real = abl.loc["real", "RMSE_Wm2"]
 
     fig, (ax1, ax2) = plt.subplots(
-        1, 2, figsize=(11, 4.4), gridspec_kw={"width_ratios": [1.35, 1], "wspace": 0.55},
+        2, 1, figsize=(max(7, 1.45 * len(abl) + 1.5), 7.6), sharex=True,
+        gridspec_kw={"height_ratios": [1.4, 1], "hspace": 0.18},
     )
 
     # (a) RMSE with persistence baselines as reference lines
     rmse = abl["RMSE_Wm2"]
     ax1.bar(x, rmse, width=0.55, color=BAR, edgecolor="white", linewidth=2)
     for i, (mode, v) in enumerate(rmse.items()):
-        text = f"{v:.1f}" if mode == "real" else f"{v:.1f}\n(+{100 * (v - rmse_real) / rmse_real:.0f}%)"
-        ax1.text(i, v + 3, text, ha="center", va="bottom", color=INK, fontsize=10)
+        text = f"{v:.1f}" if mode == "real" else f"{v:.1f}\n({100 * (v - rmse_real) / rmse_real:+.0f}%)"
+        # White box so the persistence lines never run through a label.
+        ax1.text(i, v + 3, text, ha="center", va="bottom", color=INK, fontsize=10,
+                 zorder=3, bbox=dict(facecolor="white", edgecolor="none", pad=1))
     for key, name in (("naive_persistence", "Naive persistence"),
                       ("clearsky_persistence", "Clear-sky persistence")):
         y = base.loc[key, "RMSE_Wm2"]
@@ -82,7 +91,7 @@ def main():
         ax1.text(1.01, y, f"{name}\n{y:.1f}", transform=ax1.get_yaxis_transform(),
                  ha="left", va="bottom" if key == "naive_persistence" else "top",
                  color=INK_2, fontsize=8.5, linespacing=1.1)
-    ax1.set_xticks(list(x), names)
+    ax1.tick_params(axis="x", length=0)
     ax1.set_ylabel("RMSE (W/m²)", color=INK)
     ax1.set_ylim(0, rmse.max() * 1.22)
     ax1.set_title("(a) Forecast error", loc="left", color=INK, fontsize=11)
@@ -92,11 +101,12 @@ def main():
     mbe = abl["MBE_Wm2"]
     ax2.bar(x, mbe, width=0.55, color=BAR, edgecolor="white", linewidth=2)
     for i, v in enumerate(mbe):
-        ax2.text(i, v - 2, f"{v:+.1f}", ha="center", va="top", color=INK, fontsize=10)
+        ax2.text(i, v - 2 if v < 0 else v + 2, f"{v:+.1f}", ha="center",
+                 va="top" if v < 0 else "bottom", color=INK, fontsize=10)
     ax2.axhline(0, color=INK_2, linewidth=1)
     ax2.set_xticks(list(x), names)
     ax2.set_ylabel("Mean bias error (W/m²)", color=INK)
-    ax2.set_ylim(mbe.min() * 1.25, 10)
+    ax2.set_ylim(min(mbe.min() * 1.25, -10), max(mbe.max() * 1.4, 10))
     ax2.set_title("(b) Bias (negative = under-prediction)", loc="left", color=INK, fontsize=11)
     style_axis(ax2)
 
@@ -110,7 +120,8 @@ def main():
         "Persistence baselines are on the full test set (224,022 samples).",
         color=INK_2, fontsize=8, ha="left", va="bottom",
     )
-    fig.subplots_adjust(left=0.065, right=0.985, top=0.83, bottom=0.2)
+    # Right margin leaves room for the persistence labels outside panel (a).
+    fig.subplots_adjust(left=0.08, right=0.84, top=0.9, bottom=0.11)
 
     out_dir = Path(args.output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
