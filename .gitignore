@@ -24,3 +24,6 @@ experiments/**/checkpoints/
 experiments/**/evaluation/rank_*_progress.npz
 experiments/**/evaluation/*.tmp.npz
 *.log
+
+# Report drafts and figures are kept local; not meant to be shared through git.
+report/
