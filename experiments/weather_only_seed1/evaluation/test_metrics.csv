@@ -1,0 +1,14 @@
+metric,value
+checkpoint,experiments/weather_only_seed1/checkpoints/best_model.pt
+checkpoint_epoch,6
+checkpoint_val_loss,0.023777270732656997
+test_samples,224022
+k_index_MAE,0.0681748739445507
+k_index_RMSE,0.13127707724584908
+k_index_R2,0.8119043024578403
+GHI_clipped_target_MAE_Wm2,31.32964003270527
+GHI_clipped_target_RMSE_Wm2,68.47595972906016
+GHI_clipped_target_R2,0.9403077430714337
+GHI_clipped_target_mean_Wm2,468.04452316619904
+GHI_clipped_target_nMAE,0.06693730720481127
+GHI_clipped_target_nRMSE,0.1463022348084284
