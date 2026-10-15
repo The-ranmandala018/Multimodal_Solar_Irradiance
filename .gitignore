@@ -27,3 +27,9 @@ experiments/**/evaluation/*.tmp.npz
 
 # Report drafts and figures are kept local; not meant to be shared through git.
 report/
+
+# Early root-level checkpoints (superseded by experiments/*/checkpoints/).
+checkpoints/
+
+# flock targets left by scripts/run_image_ablation_gpu1.sh.
+**/.lock

@@ -127,9 +127,47 @@ class WeatherOnlyForecastModel(nn.Module):
         return self.forecasting_head(self.temporal_encoder(temporal_input))
 
 
+class ImageOnlyForecastModel(nn.Module):
+    """Image-only baseline: the same CNN encoder and head, no weather history.
+
+    Takes the same (visual_input, temporal_input) arguments as the multimodal
+    model so the training and evaluation loops are unchanged; temporal_input
+    is ignored.
+    """
+
+    def __init__(
+        self,
+        visual_dim: int = 256,
+        hidden_dim: int = 256,
+        output_dim: int = 1,
+        dropout: float = 0.3,
+    ):
+        super().__init__()
+
+        self.visual_encoder = FolsomCNNEncoder(
+            in_channels=10,
+            feature_dim=visual_dim,
+        )
+
+        self.forecasting_head = BaselineRegressionHead(
+            input_dim=visual_dim,
+            hidden_dim=hidden_dim,
+            output_dim=output_dim,
+            dropout=dropout,
+        )
+
+    def forward(
+        self,
+        visual_input: torch.Tensor,
+        temporal_input: torch.Tensor,
+    ) -> torch.Tensor:
+        return self.forecasting_head(self.visual_encoder(visual_input))
+
+
 MODEL_TYPES = {
     "cnn_lstm": MultimodalSolarForecastModel,
     "weather_only": WeatherOnlyForecastModel,
+    "image_only": ImageOnlyForecastModel,
 }
 
 
@@ -146,6 +184,7 @@ def uses_images(model_type: str) -> bool:
 __all__ = [
     "MultimodalSolarForecastModel",
     "WeatherOnlyForecastModel",
+    "ImageOnlyForecastModel",
     "MODEL_TYPES",
     "build_model",
     "uses_images",

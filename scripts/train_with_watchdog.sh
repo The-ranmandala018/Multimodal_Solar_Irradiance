@@ -37,7 +37,7 @@ PATIENCE="${4:-5}"
 PROJECT_DIR="/storage2/CV_Irradiance/Multimodal_Solar_Irradiance"
 CONDA_ENV="${CONDA_ENV:-solar_gpu}"
 GPU_ID="${GPU_ID:-1}"
-MODEL="${MODEL:-cnn_lstm}"   # cnn_lstm or weather_only
+MODEL="${MODEL:-cnn_lstm}"   # cnn_lstm, weather_only or image_only
 
 if [ "$EXP_NAME" = "baseline_lstm_cnn" ]; then
     echo "Refusing to use baseline_lstm_cnn: that folder holds the original run."
