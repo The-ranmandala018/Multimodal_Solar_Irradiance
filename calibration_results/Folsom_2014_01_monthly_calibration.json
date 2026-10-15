@@ -1,0 +1,21 @@
+{
+    "dataset": "Folsom",
+    "year": 2014,
+    "month": 1,
+    "cx": 802.64990234375,
+    "cy": 780.9151000976562,
+    "radius": 801.2597045898438,
+    "projection_model": "theta_deg = 90 * (r_norm ** p)",
+    "p": 0.36000000000000004,
+    "azimuth_model": "predicted_azimuth = az_sign * (image_phi - az_alpha)",
+    "az_sign": 1,
+    "az_alpha_deg": 96.7,
+    "map_x_shape": [
+        180,
+        720
+    ],
+    "map_y_shape": [
+        180,
+        720
+    ]
+}
