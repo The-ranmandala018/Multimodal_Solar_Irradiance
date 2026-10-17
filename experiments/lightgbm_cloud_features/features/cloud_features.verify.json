@@ -1,0 +1,336 @@
+{
+ "file": "/storage2/CV_Irradiance/Multimodal_Solar_Irradiance/experiments/lightgbm_cloud_features/features/cloud_features.parquet",
+ "sha256": "63f8cf57338d1501e4d93fb9137fc27140d6ab9549473cc14c072d7ed7e3adf7",
+ "rows": 740265,
+ "all_checks_pass": true,
+ "checks": {
+  "unique_paths": {
+   "ok": true,
+   "detail": 0
+  },
+  "coverage": {
+   "ok": true,
+   "detail": {
+    "missing": 0,
+    "extra": 0
+   }
+  },
+  "read_ok": {
+   "ok": true,
+   "detail": 0
+  },
+  "no_inf": {
+   "ok": true,
+   "detail": 0
+  },
+  "fractions_0_1": {
+   "ok": true,
+   "detail": 0
+  },
+  "flags_0_1": {
+   "ok": true,
+   "detail": 0
+  },
+  "angles_0_180": {
+   "ok": true,
+   "detail": 0
+  },
+  "gray_0_255": {
+   "ok": true,
+   "detail": 0
+  },
+  "entropy_0_6": {
+   "ok": true,
+   "detail": 0
+  },
+  "blob_area": {
+   "ok": true,
+   "detail": 0
+  },
+  "motion_invalid_all_nan": {
+   "ok": true,
+   "detail": {}
+  },
+  "motion_valid_finite": {
+   "ok": true,
+   "detail": {}
+  },
+  "motion_valid_response": {
+   "ok": true,
+   "detail": 0
+  },
+  "all_img_le_t_present": {
+   "ok": true,
+   "detail": 0
+  },
+  "all_img_cnn_present": {
+   "ok": true,
+   "detail": 0
+  },
+  "t_img_matches_index": {
+   "ok": true,
+   "detail": 0
+  }
+ },
+ "missing_frac_by_group": {
+  "cover": {
+   "cf1_all": 0.0,
+   "cf1_z0_30": 0.0,
+   "cf1_z30_60": 0.0,
+   "cf1_z60_75": 0.0,
+   "cf2_all": 0.0,
+   "cf2_z0_30": 0.0,
+   "cf2_z30_60": 0.0,
+   "cf2_z60_75": 0.0,
+   "cf3_all": 0.0,
+   "cf3_z0_30": 0.0,
+   "cf3_z30_60": 0.0,
+   "cf3_z60_75": 0.0,
+   "cf_rbr_all": 0.0
+  },
+  "sun": {
+   "sun_sat_frac_all": 0.0,
+   "sun_sat_frac_5": 0.0,
+   "sun_sat_frac_15": 0.0,
+   "sun_blob_area": 0.0,
+   "sun_detected": 0.0,
+   "sun_blob_offset_deg": 0.2655
+  },
+  "position": {
+   "pos_cf_s0_15": 0.0009,
+   "pos_cf_s15_30": 0.0,
+   "pos_cf_s30_45": 0.0,
+   "pos_cf_s45_70": 0.0,
+   "pos_cf1_s0_15": 0.0009,
+   "pos_min_angle_cloud": 0.0
+  },
+  "texture": {
+   "tx_sat_mean": 0.0,
+   "tx_satd_mean": 0.0,
+   "tx_satd_std": 0.0,
+   "tx_grayd_mean": 0.0,
+   "tx_grayd_absmean": 0.0,
+   "tx_rbr_mean": 0.0,
+   "tx_rbr_std": 0.0,
+   "tx_gray_mean": 0.0,
+   "tx_gray_std": 0.0,
+   "tx_entropy": 0.0,
+   "tx_edge": 0.0,
+   "tx_satd_mean_s30": 0.0,
+   "tx_grayd_mean_s30": 0.0,
+   "tx_gray_std_s30": 0.0,
+   "tx_edge_s30": 0.0
+  },
+  "motion": {
+   "mo_valid": 0.0,
+   "mo_dt_s": 0.0015,
+   "mo_vx": 0.5975,
+   "mo_vy": 0.5975,
+   "mo_speed": 0.5975,
+   "mo_response": 0.1686,
+   "mo_resid_ratio": 0.5975,
+   "mo_upwind_cf": 0.731,
+   "mo_time_to_sun_min": 0.7811
+  }
+ },
+ "motion_valid_frac": 0.40254368368084403,
+ "motion_valid_but_resid_nan": 0,
+ "ranges": {
+  "cf1_all": [
+   0.0005927772373540856,
+   0.9929824000511533
+  ],
+  "cf1_z0_30": [
+   0.0,
+   1.0
+  ],
+  "cf1_z30_60": [
+   0.00010289124395513942,
+   1.0
+  ],
+  "cf1_z60_75": [
+   0.00028068205739948076,
+   1.0
+  ],
+  "cf2_all": [
+   0.00010682130321989929,
+   0.975471525640635
+  ],
+  "cf2_z0_30": [
+   0.0,
+   1.0
+  ],
+  "cf2_z30_60": [
+   0.0,
+   1.0
+  ],
+  "cf2_z60_75": [
+   0.0,
+   0.9992355537023524
+  ],
+  "cf3_all": [
+   1.5185106447596198e-05,
+   0.9638949671772429
+  ],
+  "cf3_z0_30": [
+   0.0,
+   1.0
+  ],
+  "cf3_z30_60": [
+   0.0,
+   1.0
+  ],
+  "cf3_z60_75": [
+   0.0,
+   0.9835991521595608
+  ],
+  "cf_rbr_all": [
+   0.0,
+   1.0
+  ],
+  "sun_sat_frac_all": [
+   0.0,
+   0.12279929577464789
+  ],
+  "sun_sat_frac_5": [
+   0.0,
+   1.0
+  ],
+  "sun_sat_frac_15": [
+   0.0,
+   0.9991589571068125
+  ],
+  "sun_blob_area": [
+   0.0,
+   7304.0
+  ],
+  "sun_detected": [
+   0.0,
+   1.0
+  ],
+  "sun_blob_offset_deg": [
+   0.0,
+   24.973426818847656
+  ],
+  "pos_cf_s0_15": [
+   0.0,
+   1.0
+  ],
+  "pos_cf_s15_30": [
+   0.0,
+   1.0
+  ],
+  "pos_cf_s30_45": [
+   0.0,
+   1.0
+  ],
+  "pos_cf_s45_70": [
+   0.0,
+   1.0
+  ],
+  "pos_cf1_s0_15": [
+   0.0,
+   1.0
+  ],
+  "pos_min_angle_cloud": [
+   0.0,
+   67.9935073852539
+  ],
+  "tx_sat_mean": [
+   0.0,
+   0.604712188243866
+  ],
+  "tx_satd_mean": [
+   -0.21548543870449066,
+   0.48141154646873474
+  ],
+  "tx_satd_std": [
+   0.017741529271006584,
+   0.34462806582450867
+  ],
+  "tx_grayd_mean": [
+   -72.5978012084961,
+   59.16011047363281
+  ],
+  "tx_grayd_absmean": [
+   2.9001893997192383,
+   83.6361312866211
+  ],
+  "tx_rbr_mean": [
+   0.3891589343547821,
+   1.7845261096954346
+  ],
+  "tx_rbr_std": [
+   0.0008502991986460984,
+   8.534262657165527
+  ],
+  "tx_gray_mean": [
+   76.46744313177635,
+   184.3540857212239
+  ],
+  "tx_gray_std": [
+   13.924647992061724,
+   80.28499196097034
+  ],
+  "tx_entropy": [
+   3.215371695782727,
+   5.852121009955404
+  ],
+  "tx_edge": [
+   5.005751609802246,
+   111.44432830810547
+  ],
+  "tx_satd_mean_s30": [
+   -0.07778210192918777,
+   0.5706640481948853
+  ],
+  "tx_grayd_mean_s30": [
+   -161.37649536132812,
+   44.38964080810547
+  ],
+  "tx_gray_std_s30": [
+   0.0,
+   81.06077745166014
+  ],
+  "tx_edge_s30": [
+   0.0,
+   152.40716552734375
+  ],
+  "mo_valid": [
+   0.0,
+   1.0
+  ],
+  "mo_dt_s": [
+   4.0,
+   55206.0
+  ],
+  "mo_vx": [
+   -2.0907056822036436,
+   2.676038077729119
+  ],
+  "mo_vy": [
+   -2.6071279496216793,
+   1.9156770541716113
+  ],
+  "mo_speed": [
+   0.0005990458767138427,
+   2.8135798060764654
+  ],
+  "mo_response": [
+   -1.1197820911183953,
+   1.2110815700143576
+  ],
+  "mo_resid_ratio": [
+   0.2499386696034876,
+   38.27980497858697
+  ],
+  "mo_upwind_cf": [
+   0.0,
+   1.0
+  ],
+  "mo_time_to_sun_min": [
+   1.1756523715742182e-06,
+   9.999616026680396
+  ]
+ }
+}

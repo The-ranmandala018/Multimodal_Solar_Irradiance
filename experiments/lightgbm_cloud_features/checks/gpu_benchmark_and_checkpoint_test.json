@@ -1,0 +1,39 @@
+{
+ "date": "2026-10-17",
+ "gpu": "Quadro GV100 (GPU 0; GPU 1 in use by another user)",
+ "extraction_profile_cpu_single_thread_ms_per_image": 77,
+ "profile_shares": {
+  "numpy_reductions": 0.43,
+  "scipy_map_coordinates": 0.27,
+  "other_array_ops": 0.11,
+  "jpeg_reduced_decode": 0.05,
+  "opencv_small_ops": 0.03
+ },
+ "hot_path_benchmark_1000_images": {
+  "cpu_ms": 34.1,
+  "gpu_torch_ms": 6.5,
+  "speedup": 5.3,
+  "bit_identical_to_frozen": false,
+  "images_differing": "25/1000 (16/1000 with sun angles on CPU)",
+  "max_abs_diff": 0.00013,
+  "cause": "last-ulp differences (arccos / interpolation summation order) flip single boundary pixels"
+ },
+ "end_to_end_estimate": "hot path is ~34 of ~80 ms; best case ~1.8x (25 -> ~14 min) and needs ~1100 img/s through the GPU vs ~150 img/s per process measured",
+ "extraction_decision": "keep CPU (bit-identical to frozen v1, 25 min full run); GPU would change ~2% of images by one pixel",
+ "lightgbm_300_rounds_setB": {
+  "cpu_32_threads_s": 7.6,
+  "gpu_opencl_single_s": 4.9,
+  "gpu_opencl_double_s": 11.6,
+  "gpu_single_max_pred_diff": 0.00346,
+  "gpu_double_max_pred_diff": 9.8e-10,
+  "cpu_rerun_identical": true,
+  "lightgbm_cuda_learner": "not in this build"
+ },
+ "lightgbm_decision": "keep CPU deterministic (GPU single precision: 1.55x faster but non-deterministic and different predictions; double precision slower than CPU)",
+ "checkpoint_test": {
+  "days": 6,
+  "images": 3763,
+  "scenario": "stop after 2 chunks, corrupt one completed part, stray tmp file, resume",
+  "result": "good chunk skipped, corrupted chunk detected by sha256 and redone, unfinished chunks redone, tmp cleaned; all 3763 rows bit-identical to the verified full extraction"
+ }
+}

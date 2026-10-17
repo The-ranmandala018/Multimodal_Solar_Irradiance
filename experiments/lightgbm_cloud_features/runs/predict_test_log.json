@@ -1,0 +1,137 @@
+{
+ "final_lgbm_A0_seed0": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_setA.parquet"
+ },
+ "final_lgbm_A0_seed1": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_setA.parquet"
+ },
+ "final_lgbm_A0_seed2": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_setA.parquet"
+ },
+ "final_lgbm_A0_seed3": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_setA.parquet"
+ },
+ "final_lgbm_A0_seed4": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_setA.parquet"
+ },
+ "final_lgbm_A_seed0": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_setA.parquet"
+ },
+ "final_lgbm_A_seed1": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_setA.parquet"
+ },
+ "final_lgbm_A_seed2": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_setA.parquet"
+ },
+ "final_lgbm_A_seed3": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_setA.parquet"
+ },
+ "final_lgbm_A_seed4": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_setA.parquet"
+ },
+ "final_lgbm_B_parity_seed0": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B_parity.parquet"
+ },
+ "final_lgbm_B_parity_seed1": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B_parity.parquet"
+ },
+ "final_lgbm_B_parity_seed2": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B_parity.parquet"
+ },
+ "final_lgbm_B_parity_seed3": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B_parity.parquet"
+ },
+ "final_lgbm_B_parity_seed4": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B_parity.parquet"
+ },
+ "final_lgbm_B_seed0": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B.parquet"
+ },
+ "final_lgbm_B_seed1": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B.parquet"
+ },
+ "final_lgbm_B_seed2": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B.parquet"
+ },
+ "final_lgbm_B_seed3": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B.parquet"
+ },
+ "final_lgbm_B_seed4": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B.parquet"
+ },
+ "final_lgbm_C_seed0": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B.parquet"
+ },
+ "final_lgbm_C_seed1": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B.parquet"
+ },
+ "final_lgbm_C_seed2": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B.parquet"
+ },
+ "final_lgbm_C_seed3": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B.parquet"
+ },
+ "final_lgbm_C_seed4": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B.parquet"
+ },
+ "final_ridge_A": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_setA.parquet"
+ },
+ "final_ridge_B": {
+  "n": 224022,
+  "k_pred_nan": 0,
+  "table": "samples_B.parquet"
+ }
+}

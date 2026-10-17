@@ -1,0 +1,32 @@
+{
+ "params": {
+  "N_PER_YEAR": 1500,
+  "GRAY_MAX": 80,
+  "MIN_ZENITH_DEG": 40.0,
+  "DILATE_PX": 3,
+  "MAX_ZENITH": 80.0
+ },
+ "years": {
+  "2014": {
+   "n_images": 1500,
+   "obstruction_px_in_sky80": 4047,
+   "usable_px": 75635,
+   "sky80_px": 79682,
+   "usable_frac_of_sky80": 0.9492106121834292
+  },
+  "2015": {
+   "n_images": 1500,
+   "obstruction_px_in_sky80": 4198,
+   "usable_px": 75484,
+   "sky80_px": 79682,
+   "usable_frac_of_sky80": 0.9473155794282272
+  },
+  "2016": {
+   "n_images": 1500,
+   "obstruction_px_in_sky80": 4358,
+   "usable_px": 75324,
+   "sky80_px": 79682,
+   "usable_frac_of_sky80": 0.9453075977008609
+  }
+ }
+}

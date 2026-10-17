@@ -1,0 +1,113 @@
+{
+ "git_head": "c635fd9",
+ "versions": {
+  "python": "3.10.21",
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "numpy": "2.2.6",
+  "pandas": "2.3.3",
+  "pvlib": "0.15.2",
+  "sklearn": "1.7.2",
+  "lightgbm": "4.6.0",
+  "shap": "0.48.0",
+  "pyarrow": "21.0.0",
+  "cv2": "5.0.0",
+  "torch": "2.14.0+cu126"
+ },
+ "checks": {
+  "k_true_eq_target_df": 5.9604527091750015e-08,
+  "cs_t10_eq_target_df": 3.05172897014927e-05,
+  "k_lag0_eq_k_t_raw": 5.9604527091750015e-08,
+  "img_le_t_age_max_s": 120.0,
+  "img_le_t_age_min_s": 0.0,
+  "img_cnn_unmapped": 0,
+  "test_k_true_eq_saved_weather_only_seed0": 0.0,
+  "test_ghi_true_eq_saved_weather_only_seed0": 6.1001774156466126e-05
+ },
+ "splits": {
+  "test": {
+   "n": 224022,
+   "first": "2016-01-01 16:37:00",
+   "last": "2016-12-31 00:07:00",
+   "has_image_frac": 0.9991250859290606,
+   "img_le_t_age_median_s": 25.0,
+   "img_cnn_true_offset_median_s": -121.0,
+   "sky_class_frac": {
+    "clear": 0.5842,
+    "mixed": 0.2986,
+    "overcast": 0.1172
+   }
+  },
+  "train": {
+   "n": 389442,
+   "first": "2014-01-02 16:37:00",
+   "last": "2015-10-04 20:09:00",
+   "has_image_frac": 0.9994941480374484,
+   "img_le_t_age_median_s": 31.0,
+   "img_cnn_true_offset_median_s": -68.0,
+   "sky_class_frac": {
+    "clear": 0.5833,
+    "mixed": 0.3098,
+    "overcast": 0.1069
+   }
+  },
+  "val": {
+   "n": 43271,
+   "first": "2015-10-04 20:10:00",
+   "last": "2015-12-31 00:06:00",
+   "has_image_frac": 0.9981742968731945,
+   "img_le_t_age_median_s": 37.0,
+   "img_cnn_true_offset_median_s": -158.0,
+   "sky_class_frac": {
+    "clear": 0.4895,
+    "mixed": 0.357,
+    "overcast": 0.1535
+   }
+  }
+ },
+ "columns": [
+  "datetime",
+  "split",
+  "split_pos",
+  "k_lag0",
+  "k_lag1",
+  "k_lag2",
+  "k_lag5",
+  "k_lag10",
+  "k_lag20",
+  "k_lag39",
+  "k_mean10",
+  "k_std10",
+  "k_mean20",
+  "k_std20",
+  "k_mean40",
+  "k_std40",
+  "k_diff10",
+  "temp_t",
+  "pres_t",
+  "temp_d30",
+  "pres_d30",
+  "sza_t",
+  "az_sin",
+  "az_cos",
+  "sin_hour",
+  "cos_hour",
+  "k_t_raw",
+  "ghi_t",
+  "sza_t10",
+  "k_mean_30min",
+  "k_std_30min",
+  "sky_window_minutes",
+  "sky_class",
+  "ghi_cs_t10",
+  "k_true",
+  "ghi_true",
+  "clearsky_persistence",
+  "test_period",
+  "img_le_t",
+  "img_le_t_age_s",
+  "has_image",
+  "img_cnn",
+  "img_cnn_true_offset_s"
+ ],
+ "seconds": 1715.9
+}

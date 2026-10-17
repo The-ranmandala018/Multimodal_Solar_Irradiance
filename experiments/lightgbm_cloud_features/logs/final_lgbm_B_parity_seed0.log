@@ -1,0 +1,29 @@
+{
+ "run": "final_lgbm_B_parity_seed0",
+ "val_full": {
+  "k_MSE": 0.02115654429037954,
+  "n": 43271,
+  "MAE_Wm2": 29.07800242681179,
+  "RMSE_Wm2": 56.9975316166536,
+  "MBE_Wm2": 1.641285884131841,
+  "R2": 0.90910112730992,
+  "nMAE": 0.08979635069662212,
+  "nRMSE": 0.1760151974253758,
+  "clearsky_persistence_RMSE_Wm2": 71.8310337898268,
+  "skill_vs_clearsky_persistence": 0.20650548085629838
+ },
+ "val_purged": {
+  "k_MSE": 0.02121009724640495,
+  "n": 42682,
+  "MAE_Wm2": 29.406460065564602,
+  "RMSE_Wm2": 57.36510551062808,
+  "MBE_Wm2": 1.6121845606493515,
+  "R2": 0.9068366477694305,
+  "nMAE": 0.09144959912624465,
+  "nRMSE": 0.17839671592858017,
+  "clearsky_persistence_RMSE_Wm2": 72.30339624203471,
+  "skill_vs_clearsky_persistence": 0.20660565765681171
+ },
+ "fit_seconds": 16.9,
+ "best_iteration": 284
+}

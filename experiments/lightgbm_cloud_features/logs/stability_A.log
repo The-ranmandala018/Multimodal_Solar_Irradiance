@@ -1,0 +1,22 @@
+{'trial': 16, 'fold': 0, 'block_start': '2014-01-02', 'block_end': '2014-06-30', 'n_block': 97361, 'k_MSE': 0.016658332486079126, 'val_purged_k_MSE': 0.0233948528883228}
+{'trial': 16, 'fold': 1, 'block_start': '2014-06-30', 'block_end': '2014-12-01', 'n_block': 97360, 'k_MSE': 0.01488501937165895, 'val_purged_k_MSE': 0.0233948528883228}
+{'trial': 16, 'fold': 2, 'block_start': '2014-12-01', 'block_end': '2015-05-21', 'n_block': 97360, 'k_MSE': 0.01924101613480492, 'val_purged_k_MSE': 0.0233948528883228}
+{'trial': 16, 'fold': 3, 'block_start': '2015-05-21', 'block_end': '2015-10-04', 'n_block': 97361, 'k_MSE': 0.013240926331423285, 'val_purged_k_MSE': 0.0233948528883228}
+{'trial': 12, 'fold': 0, 'block_start': '2014-01-02', 'block_end': '2014-06-30', 'n_block': 97361, 'k_MSE': 0.01660445925905165, 'val_purged_k_MSE': 0.0234316921145631}
+{'trial': 12, 'fold': 1, 'block_start': '2014-06-30', 'block_end': '2014-12-01', 'n_block': 97360, 'k_MSE': 0.014857772155116281, 'val_purged_k_MSE': 0.0234316921145631}
+{'trial': 12, 'fold': 2, 'block_start': '2014-12-01', 'block_end': '2015-05-21', 'n_block': 97360, 'k_MSE': 0.01918761461030657, 'val_purged_k_MSE': 0.0234316921145631}
+{'trial': 12, 'fold': 3, 'block_start': '2015-05-21', 'block_end': '2015-10-04', 'n_block': 97361, 'k_MSE': 0.01319151258374701, 'val_purged_k_MSE': 0.0234316921145631}
+{'trial': 23, 'fold': 0, 'block_start': '2014-01-02', 'block_end': '2014-06-30', 'n_block': 97361, 'k_MSE': 0.01655347867482078, 'val_purged_k_MSE': 0.0234374828403184}
+{'trial': 23, 'fold': 1, 'block_start': '2014-06-30', 'block_end': '2014-12-01', 'n_block': 97360, 'k_MSE': 0.014810765561536104, 'val_purged_k_MSE': 0.0234374828403184}
+{'trial': 23, 'fold': 2, 'block_start': '2014-12-01', 'block_end': '2015-05-21', 'n_block': 97360, 'k_MSE': 0.019163915906679298, 'val_purged_k_MSE': 0.0234374828403184}
+{'trial': 23, 'fold': 3, 'block_start': '2015-05-21', 'block_end': '2015-10-04', 'n_block': 97361, 'k_MSE': 0.013171935600194463, 'val_purged_k_MSE': 0.0234374828403184}
+{'trial': 0, 'fold': 0, 'block_start': '2014-01-02', 'block_end': '2014-06-30', 'n_block': 97361, 'k_MSE': 0.016601131899827527, 'val_purged_k_MSE': 0.0234531644957223}
+{'trial': 0, 'fold': 1, 'block_start': '2014-06-30', 'block_end': '2014-12-01', 'n_block': 97360, 'k_MSE': 0.014868663569973895, 'val_purged_k_MSE': 0.0234531644957223}
+{'trial': 0, 'fold': 2, 'block_start': '2014-12-01', 'block_end': '2015-05-21', 'n_block': 97360, 'k_MSE': 0.019174585285620927, 'val_purged_k_MSE': 0.0234531644957223}
+{'trial': 0, 'fold': 3, 'block_start': '2015-05-21', 'block_end': '2015-10-04', 'n_block': 97361, 'k_MSE': 0.013172071934957355, 'val_purged_k_MSE': 0.0234531644957223}
+fold          0         1         2         3
+trial                                        
+0      0.016601  0.014869  0.019175  0.013172
+12     0.016604  0.014858  0.019188  0.013192
+16     0.016658  0.014885  0.019241  0.013241
+23     0.016553  0.014811  0.019164  0.013172

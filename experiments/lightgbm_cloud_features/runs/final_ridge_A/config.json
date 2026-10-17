@@ -1,0 +1,88 @@
+{
+ "run_name": "final_ridge_A",
+ "model": "ridge",
+ "feature_set": "A",
+ "table": "samples_setA.parquet",
+ "features": [
+  "k_lag0",
+  "k_lag1",
+  "k_lag2",
+  "k_lag5",
+  "k_lag10",
+  "k_lag20",
+  "k_lag39",
+  "k_mean10",
+  "k_std10",
+  "k_mean20",
+  "k_std20",
+  "k_mean40",
+  "k_std40",
+  "k_diff10",
+  "temp_t",
+  "pres_t",
+  "temp_d30",
+  "pres_d30",
+  "sza_t",
+  "az_sin",
+  "az_cos",
+  "sin_hour",
+  "cos_hour",
+  "sza_t10",
+  "ghi_cs_t10"
+ ],
+ "seed": 0,
+ "fit": {
+  "alpha": 10.0,
+  "alpha_search": [
+   {
+    "alpha": 0.001,
+    "val_purged_k_MSE": 0.025367362838588
+   },
+   {
+    "alpha": 0.01,
+    "val_purged_k_MSE": 0.02536340430234645
+   },
+   {
+    "alpha": 0.1,
+    "val_purged_k_MSE": 0.02535584432872859
+   },
+   {
+    "alpha": 1.0,
+    "val_purged_k_MSE": 0.025353567129064933
+   },
+   {
+    "alpha": 10.0,
+    "val_purged_k_MSE": 0.02535337652132058
+   },
+   {
+    "alpha": 100.0,
+    "val_purged_k_MSE": 0.025354181023463457
+   },
+   {
+    "alpha": 1000.0,
+    "val_purged_k_MSE": 0.025363620105754037
+   }
+  ]
+ },
+ "predict_test": false,
+ "n_train": 389442,
+ "n_val_full": 43271,
+ "n_val_purged": 42682,
+ "purge": "1 days 00:00:00",
+ "val_purged_start": "2015-10-05 20:10:00",
+ "fit_seconds": 9.4,
+ "git_head": "c635fd9",
+ "versions": {
+  "python": "3.10.21",
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "numpy": "2.2.6",
+  "pandas": "2.3.3",
+  "pvlib": "0.15.2",
+  "sklearn": "1.7.2",
+  "lightgbm": "4.6.0",
+  "shap": "0.48.0",
+  "pyarrow": "21.0.0",
+  "cv2": "5.0.0",
+  "torch": "2.14.0+cu126"
+ }
+}

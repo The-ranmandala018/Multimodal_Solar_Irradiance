@@ -1,0 +1,136 @@
+{
+ "version": "cloud_features_v1",
+ "frozen_at_local": "2026-10-17T11:21:32",
+ "note": "Hashes of the exact files used by the full extraction started after Gate 2 acceptance; none modified after 11:01.",
+ "files": {
+  "scripts/lgbm_cloud/build_image_index.py": {
+   "sha256": "8fc53a209aef6c5bab91c0335794fc8ebf449bd3e4223faeee628d22a420b49d",
+   "mtime": "2026-10-17T10:10:03"
+  },
+  "scripts/lgbm_cloud/build_tabular_features.py": {
+   "sha256": "ef9c95a30643b199d0a9d0b46ede523f21a61753c641d38b548fb6f89511a15f",
+   "mtime": "2026-10-17T10:08:28"
+  },
+  "scripts/lgbm_cloud/check_sun_geometry.py": {
+   "sha256": "29e90d4f441102705f23f78053cd95850a114db1289db98515587f1e10ced4d7",
+   "mtime": "2026-10-17T10:43:45"
+  },
+  "scripts/lgbm_cloud/cloud_features.py": {
+   "sha256": "a1a953b8f7f0a52594c58630443d9a507f37dfc7f9152e6679b6232326afa65f",
+   "mtime": "2026-10-17T10:59:16"
+  },
+  "scripts/lgbm_cloud/common.py": {
+   "sha256": "07513d179c1462d45a58154ceb667149c8e99c0fd7b55f100d402177b4108459",
+   "mtime": "2026-10-17T10:07:36"
+  },
+  "scripts/lgbm_cloud/extract_cloud_features.py": {
+   "sha256": "84ae794045dbc63dcfc6b4ccdc84f912d975711ffe8b41ce37851bbf458de5f2",
+   "mtime": "2026-10-17T11:23:26"
+  },
+  "scripts/lgbm_cloud/feature_sets.py": {
+   "sha256": "5a6536fad6b5d0a8d9dedbd81d0e7dcc2013060daa0bc9289c7dabf4b67cef3d",
+   "mtime": "2026-10-17T10:11:22"
+  },
+  "scripts/lgbm_cloud/fit_clear_sky_library.py": {
+   "sha256": "11c5360a6271afbb453f07f84e6dbea0e05fb0f9b2f289670d1763f13db88ba2",
+   "mtime": "2026-10-17T10:59:57"
+  },
+  "scripts/lgbm_cloud/fit_sky_geometry.py": {
+   "sha256": "9644397a10555beeab9f99ea146bfde15d6cafb71e5f2401645cd37313164ebb",
+   "mtime": "2026-10-17T10:46:28"
+  },
+  "scripts/lgbm_cloud/fit_sky_mask.py": {
+   "sha256": "7cd3187b531bad67d8ea39a71ec8a6485fc15b6c6d02b318ecdb5f28a583cea9",
+   "mtime": "2026-10-17T10:47:27"
+  },
+  "scripts/lgbm_cloud/gate2_overlays.py": {
+   "sha256": "e09e210d7270592d16f7034bbb6ccf00c963264beb2e9a6cd3fc1481476eebbe",
+   "mtime": "2026-10-17T10:57:11"
+  },
+  "scripts/lgbm_cloud/join_features.py": {
+   "sha256": "f18b8b29fdb6b001708f1e1395869265f369e27395e7fb50576f14caddc62e09",
+   "mtime": "2026-10-17T11:21:04"
+  },
+  "scripts/lgbm_cloud/sky_geometry.py": {
+   "sha256": "84042f51e95d39757979794f7eb81bd9577b754ff922d804e4b46d07d889bab5",
+   "mtime": "2026-10-17T10:49:38"
+  },
+  "scripts/lgbm_cloud/train_tabular.py": {
+   "sha256": "f6562fd02196570d95dc23291fc01bc3a39d00f3dd1cac60cf46e75e73933353",
+   "mtime": "2026-10-17T10:11:33"
+  },
+  "experiments/lightgbm_cloud_features/features/image_index.parquet": {
+   "sha256": "22ffce1be7baec701c24bfae4c89d7a8af40b5c372ab6be3523135c83aad67ee",
+   "mtime": "2026-10-17T10:10:31"
+  },
+  "experiments/lightgbm_cloud_features/features/sky_geometry.json": {
+   "sha256": "d42606ecc86a2b1cb143152a64b9ad4a42ec2d3a23c719b6f46272e0c569bf5c",
+   "mtime": "2026-10-17T10:46:58"
+  },
+  "experiments/lightgbm_cloud_features/features/sky_mask_2014.npy": {
+   "sha256": "40844fd4288f5c239cc3e498fc98c57a15f8e49b60d5c80e9c26539b80317eb3",
+   "mtime": "2026-10-17T10:47:57"
+  },
+  "experiments/lightgbm_cloud_features/features/sky_mask_2015.npy": {
+   "sha256": "8836d9920bde5bdc9737bdee40802da058ff7a72d0b8a2b180d8aa8566c52251",
+   "mtime": "2026-10-17T10:48:26"
+  },
+  "experiments/lightgbm_cloud_features/features/sky_mask_2016.npy": {
+   "sha256": "9d021636ee5658f9a3dc5d4c7302e004e7b77b41cceb13d4508e6c637a681fa7",
+   "mtime": "2026-10-17T10:48:54"
+  },
+  "experiments/lightgbm_cloud_features/features/clear_sky_library.npz": {
+   "sha256": "b3e21bc8038fdad66430e063aa783b1815bd5ba469f0de13191c4f780ecc4adb",
+   "mtime": "2026-10-17T11:00:07"
+  },
+  "experiments/lightgbm_cloud_features/features/cloud_thresholds.json": {
+   "sha256": "751ca098790644537072f7a90f8ffbd215e3811a00c1b50dcd48766e1e301004",
+   "mtime": "2026-10-17T11:00:27"
+  },
+  "experiments/lightgbm_cloud_features/checks/gate2/gate2_samples.csv": {
+   "sha256": "a23f4e49fe5ea5e52436c6968f59f46460077afe8b7a5f4e7d24204cd3d78103",
+   "mtime": "2026-10-17T11:01:06"
+  },
+  "experiments/lightgbm_cloud_features/checks/gate2/page_1.png": {
+   "sha256": "b3a15b293502ace40728c2553467b2aec6dde41019a7fc9fed2e98ea0108faa2",
+   "mtime": "2026-10-17T11:01:05"
+  },
+  "experiments/lightgbm_cloud_features/checks/gate2/page_2.png": {
+   "sha256": "edd1763588dd79de27c5fe827b980cb01fdfbba890843b808cf5f9ca073e5be7",
+   "mtime": "2026-10-17T11:01:05"
+  },
+  "experiments/lightgbm_cloud_features/checks/gate2/page_3.png": {
+   "sha256": "2b5683439e7b306bf0d8800f66b6f6dbe98486949b0bc4047c2e18a875f793ad",
+   "mtime": "2026-10-17T11:01:06"
+  },
+  "experiments/lightgbm_cloud_features/checks/gate2/page_4.png": {
+   "sha256": "b5f82b7fad1b0fd3df1c3f5d2d1568a91adf5910cc12253d1e63f7bd95b44946",
+   "mtime": "2026-10-17T11:01:06"
+  },
+  "experiments/lightgbm_cloud_features/checks/gate2/page_5.png": {
+   "sha256": "95745eece96b6521fcced8ff06012749cd1013cb135b2643cea6ae92bd196b85",
+   "mtime": "2026-10-17T11:01:06"
+  }
+ },
+ "execution_changes": [
+  "extract_cloud_features.py: cv2.setNumThreads(1) per worker added before the full run (first launch at 11:20 overloaded the server, load ~4000, and was stopped after ~2 min with no output). Feature computation unchanged.",
+  "feature_sets.py and train_tabular.py were edited after the freeze for Steps 5-6 (feature sets B/C/B_parity, per-set tables, test rows not loaded unless --predict-test). They are not used by extraction; their hashes above are the pre-edit versions.",
+  "Second launch (11:23, 48 workers) was killed at ~700/1083 days when the Claude session ended (~11:43); no output written. Third launch at ~18:35 detached with setsid/nohup.",
+  "Checkpointed resumable extraction added (checkpoint.py; extract_cloud_features.py main): per-day chunks, atomic write + read-back validation + sha256 ledger tied to the frozen-config id; run refuses to start if any feature-defining file differs from this manifest. Tested on 6 days with interruption and corruption: bit-identical to the verified full output. Feature code unchanged.",
+  "GPU evaluated and not adopted (checks/gpu_benchmark_and_checkpoint_test.json): extraction hot path 5.3x faster on GPU but not bit-identical (1-pixel differences in ~2% of images), end-to-end gain <=1.8x; LightGBM OpenCL GPU non-deterministic. CPU kept for extraction and training."
+ ],
+ "outputs": {
+  "features/cloud_features.parquet": {
+   "sha256": "63f8cf57338d1501e4d93fb9137fc27140d6ab9549473cc14c072d7ed7e3adf7",
+   "rows": 740265,
+   "verified": true,
+   "backend": "cpu (numpy/scipy/opencv), 48 workers x 1 thread",
+   "launch": "2026-10-17 18:35, detached; wall 1510 s"
+  }
+ },
+ "orchestration_files": {
+  "scripts/lgbm_cloud/checkpoint.py": "5e43f34f4f7eb739d1129605571aebcf3d32af08fc9e0a55b68df69fba79d749",
+  "scripts/lgbm_cloud/extract_cloud_features.py": "872e66d87ed49cdf551f4a2c03bacd567abf8b47c06403fbe90d664102622838",
+  "scripts/lgbm_cloud/verify_cloud_features.py": "11271e13baeef69583e6d73ce3d734cd91b66ee1f6cec035ab95e6ca6c2de1bb"
+ }
+}

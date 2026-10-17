@@ -1,0 +1,82 @@
+diff -ru a/scripts/lgbm_cloud/common.py b/scripts/lgbm_cloud/common.py
+--- a/scripts/lgbm_cloud/common.py	2026-10-17 21:35:56.002712593 +0530
++++ b/scripts/lgbm_cloud/common.py	2026-10-17 21:35:56.054711692 +0530
+@@ -19,7 +19,8 @@
+ if str(PROJECT_DIR) not in sys.path:
+     sys.path.insert(0, str(PROJECT_DIR))
+ 
+-DATA_ROOT = Path("/storage2/CV_Irradiance/datasets/1_Folsom")
++# Override with FOLSOM_DATA_ROOT on another machine; the default is the original server path.
++DATA_ROOT = Path(os.environ.get("FOLSOM_DATA_ROOT", "/storage2/CV_Irradiance/datasets/1_Folsom"))
+ CSV_PATH = DATA_ROOT / "csv_files" / "Folsom_irradiance_weather.csv"
+ CORRUPTED_LIST = DATA_ROOT / "corrupted_images.txt"
+ 
+diff -ru a/scripts/lgbm_cloud/phase1/p1_images.py b/scripts/lgbm_cloud/phase1/p1_images.py
+--- a/scripts/lgbm_cloud/phase1/p1_images.py	2026-10-17 21:35:56.019712298 +0530
++++ b/scripts/lgbm_cloud/phase1/p1_images.py	2026-10-17 21:36:06.027539129 +0530
+@@ -10,7 +10,7 @@
+ import pandas as pd
+ import pvlib
+ 
+-ROOT = Path("/storage2/CV_Irradiance/datasets/1_Folsom")
++ROOT = Path(os.environ.get("FOLSOM_DATA_ROOT", "/storage2/CV_Irradiance/datasets/1_Folsom"))
+ OUT = Path(sys.argv[1])
+ OUT.mkdir(parents=True, exist_ok=True)
+ 
+diff -ru a/scripts/lgbm_cloud/phase1/p1_lags.py b/scripts/lgbm_cloud/phase1/p1_lags.py
+--- a/scripts/lgbm_cloud/phase1/p1_lags.py	2026-10-17 21:35:56.024712212 +0530
++++ b/scripts/lgbm_cloud/phase1/p1_lags.py	2026-10-17 21:35:56.054711692 +0530
+@@ -11,6 +11,7 @@
+ Writes to the scratchpad only.
+ """
+ import json
++import os
+ import sys
+ from pathlib import Path
+ 
+@@ -19,8 +20,8 @@
+ import pvlib
+ 
+ OUT = Path(sys.argv[1])
+-CSV = "/storage2/CV_Irradiance/datasets/1_Folsom/csv_files/Folsom_irradiance_weather.csv"
+-FEAT = "/storage2/CV_Irradiance/datasets/1_Folsom/csv_files/Folsom_sky_image_features.csv"
++CSV = os.environ.get("FOLSOM_DATA_ROOT", "/storage2/CV_Irradiance/datasets/1_Folsom") + "/csv_files/Folsom_irradiance_weather.csv"
++FEAT = os.environ.get("FOLSOM_DATA_ROOT", "/storage2/CV_Irradiance/datasets/1_Folsom") + "/csv_files/Folsom_sky_image_features.csv"
+ site = pvlib.location.Location(38.642, -121.148, altitude=60.0)
+ 
+ df = pd.read_csv(CSV, parse_dates=["Datetime"]).set_index("Datetime").sort_index()
+diff -ru a/scripts/lgbm_cloud/phase1/p1_samples.py b/scripts/lgbm_cloud/phase1/p1_samples.py
+--- a/scripts/lgbm_cloud/phase1/p1_samples.py	2026-10-17 21:35:56.013712402 +0530
++++ b/scripts/lgbm_cloud/phase1/p1_samples.py	2026-10-17 21:36:06.027539129 +0530
+@@ -13,7 +13,7 @@
+ import numpy as np
+ import pandas as pd
+ 
+-REPO = "/storage2/CV_Irradiance/Multimodal_Solar_Irradiance"
++REPO = str(Path(__file__).resolve().parents[3])
+ sys.path.insert(0, REPO)
+ from datasets.folsom_dataset import FolsomDataset  # noqa: E402
+ from datasets.chrono import chronological_year_split  # noqa: E402
+@@ -23,8 +23,8 @@
+ 
+ CONFIG = {
+     "data": {
+-        "csv_path": "/storage2/CV_Irradiance/datasets/1_Folsom/csv_files/Folsom_irradiance_weather.csv",
+-        "image_root": "/storage2/CV_Irradiance/datasets/1_Folsom",
++        "csv_path": os.environ.get("FOLSOM_DATA_ROOT", "/storage2/CV_Irradiance/datasets/1_Folsom") + "/csv_files/Folsom_irradiance_weather.csv",
++        "image_root": os.environ.get("FOLSOM_DATA_ROOT", "/storage2/CV_Irradiance/datasets/1_Folsom"),
+         "sequence_length": 40,
+         "sampling_rate_sec": 60,
+         "image_tolerance_sec": 120,
+diff -ru a/scripts/lgbm_cloud/run_step6.sh b/scripts/lgbm_cloud/run_step6.sh
+--- a/scripts/lgbm_cloud/run_step6.sh	2026-10-17 21:35:56.007712506 +0530
++++ b/scripts/lgbm_cloud/run_step6.sh	2026-10-17 21:35:56.054711692 +0530
+@@ -7,7 +7,7 @@
+ # unfinished run directories are removed and redone.
+ set -euo pipefail
+ cd "$(dirname "$0")"
+-PY="env PYTHONNOUSERSITE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONPATH=$(cd ../.. && pwd) /storage2/CV_Irradiance/.envs/lgbm_cloud/bin/python"
++PY="env PYTHONNOUSERSITE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONPATH=$(cd ../.. && pwd) ${LGBM_PYTHON:-/storage2/CV_Irradiance/.envs/lgbm_cloud/bin/python}"
+ RUNS=../../experiments/lightgbm_cloud_features/runs
+ LOGS=../../experiments/lightgbm_cloud_features/logs
+ mkdir -p "$LOGS"

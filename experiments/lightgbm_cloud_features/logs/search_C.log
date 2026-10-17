@@ -1,0 +1,42 @@
+[C] trial 0: k_MSE 0.024691 RMSE 60.73 iters 147 (10.7 s)
+[C] trial 1: k_MSE 0.024956 RMSE 61.12 iters 110 (13.6 s)
+[C] trial 2: k_MSE 0.025332 RMSE 61.53 iters 340 (9.9 s)
+[C] trial 3: k_MSE 0.025029 RMSE 61.13 iters 109 (9.8 s)
+[C] trial 4: k_MSE 0.024612 RMSE 60.65 iters 154 (10.9 s)
+[C] trial 5: k_MSE 0.024587 RMSE 60.63 iters 182 (6.1 s)
+[C] trial 6: k_MSE 0.024666 RMSE 60.73 iters 139 (9.1 s)
+[C] trial 7: k_MSE 0.024862 RMSE 60.89 iters 56 (6.2 s)
+[C] trial 8: k_MSE 0.024724 RMSE 60.72 iters 79 (7.4 s)
+[C] trial 9: k_MSE 0.024758 RMSE 60.88 iters 90 (7.7 s)
+[C] trial 10: k_MSE 0.024909 RMSE 60.96 iters 147 (6.4 s)
+[C] trial 11: k_MSE 0.025125 RMSE 61.26 iters 299 (6.0 s)
+[C] trial 12: k_MSE 0.024549 RMSE 60.50 iters 111 (8.6 s)
+[C] trial 13: k_MSE 0.024777 RMSE 60.83 iters 123 (6.2 s)
+[C] trial 14: k_MSE 0.025286 RMSE 61.54 iters 66 (3.7 s)
+[C] trial 15: k_MSE 0.024822 RMSE 60.96 iters 327 (7.3 s)
+[C] trial 16: k_MSE 0.024533 RMSE 60.59 iters 256 (13.8 s)
+[C] trial 17: k_MSE 0.025104 RMSE 61.24 iters 150 (8.9 s)
+[C] trial 18: k_MSE 0.024989 RMSE 61.06 iters 80 (8.0 s)
+[C] trial 19: k_MSE 0.025233 RMSE 61.41 iters 227 (12.2 s)
+[C] trial 20: k_MSE 0.024564 RMSE 60.65 iters 101 (7.0 s)
+[C] trial 21: k_MSE 0.024879 RMSE 61.13 iters 234 (5.0 s)
+[C] trial 22: k_MSE 0.024557 RMSE 60.70 iters 101 (7.1 s)
+[C] trial 23: k_MSE 0.024819 RMSE 60.84 iters 147 (12.6 s)
+[C] trial 24: k_MSE 0.025114 RMSE 61.28 iters 124 (9.7 s)
+[C] trial 25: k_MSE 0.025253 RMSE 61.43 iters 344 (14.2 s)
+[C] trial 26: k_MSE 0.024818 RMSE 60.88 iters 81 (8.0 s)
+[C] trial 27: k_MSE 0.025255 RMSE 61.37 iters 1018 (15.9 s)
+[C] trial 28: k_MSE 0.024650 RMSE 60.78 iters 61 (5.3 s)
+[C] trial 29: k_MSE 0.024588 RMSE 60.68 iters 76 (7.5 s)
+{
+ "best_trial": 16,
+ "params": {
+  "num_leaves": 122,
+  "min_data_in_leaf": 270,
+  "learning_rate": 0.020418191538433782,
+  "feature_fraction": 0.7812947240320913,
+  "bagging_fraction": 0.7474449997022778,
+  "lambda_l2": 6.013821213404011
+ },
+ "val_purged_k_MSE": 0.02453314322192752
+}

@@ -1,0 +1,54 @@
+{
+ "cloud_thresholds": [
+  [
+   -0.06531664619051931,
+   17.333027406165346
+  ],
+  [
+   -0.0983877564458242,
+   21.65184124004421
+  ],
+  [
+   -0.12919340390566006,
+   26.17336458323107
+  ]
+ ],
+ "target_fpr": [
+  0.2,
+  0.1,
+  0.05
+ ],
+ "achieved_fpr": [
+  0.1985025,
+  0.09975833333333334,
+  0.04963083333333333
+ ],
+ "quantile_q": [
+  0.11144723618090452,
+  0.05469346733668342,
+  0.026603015075376886
+ ],
+ "rbr_threshold": 0.09350150823593145,
+ "strict_k_std": 0.02,
+ "n_images": {
+  "library": 3000,
+  "heldout_clear": 600,
+  "overcast": 600
+ },
+ "library_bins_with_30plus_px": 656,
+ "library_bins_total": 1620,
+ "separation_report": {
+  "heldout_clear": {
+   "cf1_per_image_median": 0.167,
+   "cf2_per_image_median": 0.06875,
+   "cf3_per_image_median": 0.028,
+   "pixels_lt35deg_from_sun_detected_cf2": 0.03399495292633214
+  },
+  "overcast": {
+   "cf1_per_image_median": 0.9255,
+   "cf2_per_image_median": 0.8532500000000001,
+   "cf3_per_image_median": 0.7867500000000001,
+   "pixels_lt35deg_from_sun_detected_cf2": 0.7719854317272761
+  }
+ }
+}

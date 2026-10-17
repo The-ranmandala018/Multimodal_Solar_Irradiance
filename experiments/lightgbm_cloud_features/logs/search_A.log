@@ -1,0 +1,42 @@
+[A] trial 0: k_MSE 0.023453 RMSE 60.65 iters 90 (5.7 s)
+[A] trial 1: k_MSE 0.023519 RMSE 60.81 iters 128 (9.8 s)
+[A] trial 2: k_MSE 0.023604 RMSE 60.87 iters 459 (11.4 s)
+[A] trial 3: k_MSE 0.023494 RMSE 60.75 iters 62 (7.2 s)
+[A] trial 4: k_MSE 0.023505 RMSE 60.75 iters 143 (8.4 s)
+[A] trial 5: k_MSE 0.023539 RMSE 60.77 iters 111 (4.5 s)
+[A] trial 6: k_MSE 0.023481 RMSE 60.70 iters 155 (8.3 s)
+[A] trial 7: k_MSE 0.023474 RMSE 60.70 iters 43 (4.6 s)
+[A] trial 8: k_MSE 0.023473 RMSE 60.68 iters 70 (5.1 s)
+[A] trial 9: k_MSE 0.023562 RMSE 60.76 iters 109 (5.4 s)
+[A] trial 10: k_MSE 0.023586 RMSE 60.78 iters 129 (4.1 s)
+[A] trial 11: k_MSE 0.023710 RMSE 60.94 iters 342 (4.6 s)
+[A] trial 12: k_MSE 0.023432 RMSE 60.64 iters 118 (8.9 s)
+[A] trial 13: k_MSE 0.023498 RMSE 60.68 iters 77 (4.6 s)
+[A] trial 14: k_MSE 0.023721 RMSE 60.97 iters 144 (3.9 s)
+[A] trial 15: k_MSE 0.023585 RMSE 60.80 iters 161 (3.7 s)
+[A] trial 16: k_MSE 0.023395 RMSE 60.65 iters 176 (9.8 s)
+[A] trial 17: k_MSE 0.023683 RMSE 61.01 iters 124 (6.9 s)
+[A] trial 18: k_MSE 0.023506 RMSE 60.78 iters 89 (6.2 s)
+[A] trial 19: k_MSE 0.023603 RMSE 60.92 iters 459 (17.3 s)
+[A] trial 20: k_MSE 0.023476 RMSE 60.73 iters 75 (4.0 s)
+[A] trial 21: k_MSE 0.023680 RMSE 60.87 iters 113 (3.0 s)
+[A] trial 22: k_MSE 0.023448 RMSE 60.67 iters 76 (5.4 s)
+[A] trial 23: k_MSE 0.023437 RMSE 60.72 iters 149 (9.8 s)
+[A] trial 24: k_MSE 0.023555 RMSE 60.87 iters 255 (13.7 s)
+[A] trial 25: k_MSE 0.023634 RMSE 60.94 iters 462 (16.9 s)
+[A] trial 26: k_MSE 0.023486 RMSE 60.72 iters 69 (6.1 s)
+[A] trial 27: k_MSE 0.023641 RMSE 60.88 iters 639 (9.9 s)
+[A] trial 28: k_MSE 0.023567 RMSE 60.82 iters 53 (4.0 s)
+[A] trial 29: k_MSE 0.023497 RMSE 60.74 iters 58 (5.2 s)
+{
+ "best_trial": 16,
+ "params": {
+  "num_leaves": 122,
+  "min_data_in_leaf": 270,
+  "learning_rate": 0.020418191538433782,
+  "feature_fraction": 0.7812947240320913,
+  "bagging_fraction": 0.7474449997022778,
+  "lambda_l2": 6.013821213404011
+ },
+ "val_purged_k_MSE": 0.02339485288832289
+}

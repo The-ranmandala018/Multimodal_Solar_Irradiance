@@ -1,0 +1,110 @@
+counts: {'test_samples': 224022, 'jan_aug': 159369, 'sep_dec': 64653, 'sky_class': {'clear': 130866, 'mixed': 66892, 'overcast': 26264}, 'test_days': 365, 'has_image_le_t': 223826}
+checks: {'saved_models_reproduce_val_max_abs_diff': 0.0, 'weather_only_seed0_rank_world': 1, 'weather_only_seed0_target_max_abs_diff': 6.1001774156466126e-05, 'weather_only_seed1_rank_world': 1, 'weather_only_seed1_target_max_abs_diff': 6.1001774156466126e-05, 'weather_only_seed2_rank_world': 1, 'weather_only_seed2_target_max_abs_diff': 6.1001774156466126e-05, 'baseline_lstm_cnn_rank_world': 2, 'baseline_lstm_cnn_target_max_abs_diff': 6.1001774156466126e-05, 'cnn_lstm_seed1_rank_world': 1, 'cnn_lstm_seed1_target_max_abs_diff': 6.1001774156466126e-05, 'cnn_lstm_seed2_rank_world': 1, 'cnn_lstm_seed2_target_max_abs_diff': 6.1001774156466126e-05, 'image_only_seed0_rank_world': 1, 'image_only_seed0_target_max_abs_diff': 6.1001774156466126e-05}
+                model  RMSE_Wm2  MAE_Wm2  MBE_Wm2    R2  FS_vs_clearsky_persistence  FS_vs_naive_persistence  runs  RMSE_run_mean  RMSE_run_sd
+               LGBM-A    67.982   31.106    1.070 0.941                       0.164                    0.218   5.0         68.019        0.037
+              LGBM-A0    67.944   31.162    1.072 0.941                       0.165                    0.218   5.0         67.980        0.040
+               LGBM-B    64.359   28.380    1.171 0.947                       0.209                    0.260   5.0         64.468        0.106
+               LGBM-C    68.359   35.540    0.391 0.941                       0.160                    0.214   5.0         68.440        0.083
+        LGBM-B-parity    65.763   29.276    1.208 0.945                       0.192                    0.243   5.0         65.848        0.031
+              Ridge-A    70.465   32.252    0.970 0.937                       0.134                    0.189   1.0         70.465          NaN
+              Ridge-B    68.085   33.059    2.486 0.941                       0.163                    0.217   1.0         68.085          NaN
+    Weather-only LSTM    68.234   31.155    3.225 0.941                       0.161                    0.215   3.0         68.560        0.184
+             CNN+LSTM    65.507   32.323   -6.999 0.945                       0.195                    0.246   3.0         66.412        0.631
+       Image-only CNN    70.924   38.211    4.982 0.936                       0.128                    0.184   1.0         70.924          NaN
+Clear-sky persistence    81.367   31.711    0.192 0.916                       0.000                    0.064   NaN            NaN          NaN
+    Naive persistence    86.926   45.182    3.822 0.904                      -0.068                    0.000   NaN            NaN          NaN
+period                 jan_aug  sep_dec
+model                                  
+CNN+LSTM                 70.00    52.82
+Clear-sky persistence    87.77    62.85
+Image-only CNN           75.13    59.29
+LGBM-A                   72.86    54.12
+LGBM-A0                  72.82    54.08
+LGBM-B                   69.30    50.14
+LGBM-B-parity            70.16    53.42
+LGBM-C                   73.28    54.37
+Naive persistence        93.24    68.95
+Ridge-A                  75.68    55.56
+Ridge-B                  73.24    53.29
+Weather-only LSTM        73.17    54.18
+sky_class              clear  mixed  overcast
+model                                        
+CNN+LSTM               12.28  72.01     31.10
+Clear-sky persistence   7.23  80.20     30.20
+Image-only CNN         16.03  75.70     53.24
+LGBM-A                  7.34  76.94     32.81
+LGBM-A0                 7.40  76.93     32.99
+LGBM-B                  6.74  70.07     30.03
+LGBM-B-parity           6.84  72.34     31.36
+LGBM-C                 13.38  72.96     50.63
+Naive persistence      25.70  88.84     31.04
+Ridge-A                 9.09  76.35     35.34
+Ridge-B                11.52  73.44     37.52
+Weather-only LSTM       7.52  76.84     32.56
+                comparison   subset      n   dMAE  dMAE_lo  dMAE_hi  dRMSE  dRMSE_lo  dRMSE_hi  n_days
+           LGBM-B - LGBM-A      all 224022 -2.726   -3.140   -2.325 -3.623    -4.360    -2.937     365
+           LGBM-B - LGBM-A  jan_aug 159369 -2.716   -3.232   -2.188 -3.557    -4.462    -2.695     243
+           LGBM-B - LGBM-A  sep_dec  64653 -2.749   -3.365   -2.196 -3.979    -5.223    -2.832     122
+           LGBM-B - LGBM-A    clear 130866 -0.594   -0.798   -0.336 -0.699    -1.158    -0.142     307
+           LGBM-B - LGBM-A    mixed  66892 -6.873   -7.761   -5.998 -6.012    -7.357    -4.734     283
+           LGBM-B - LGBM-A overcast  26264 -2.783   -3.706   -1.830 -4.704    -6.360    -3.134     140
+          LGBM-B - Ridge-B      all 224022 -4.679   -5.176   -4.172 -3.726    -4.530    -2.901     365
+          LGBM-B - Ridge-B  jan_aug 159369 -4.947   -5.595   -4.346 -3.940    -5.018    -2.875     243
+          LGBM-B - Ridge-B  sep_dec  64653 -4.020   -4.865   -3.193 -3.150    -4.080    -2.291     122
+          LGBM-B - Ridge-B    clear 130866 -4.780   -5.188   -4.386 -2.644    -3.110    -2.201     307
+          LGBM-B - Ridge-B    mixed  66892 -3.377   -4.315   -2.339 -4.824    -6.397    -3.235     283
+          LGBM-B - Ridge-B overcast  26264 -7.494   -9.953   -5.155 -7.557    -9.781    -5.287     140
+    LGBM-B-parity - LGBM-B      all 224022  0.895    0.724    1.084  1.404     1.048     1.826     365
+    LGBM-B-parity - LGBM-B  jan_aug 159369  0.530    0.404    0.666  0.854     0.556     1.181     243
+    LGBM-B-parity - LGBM-B  sep_dec  64653  1.798    1.367    2.297  3.279     2.257     4.446     122
+    LGBM-B-parity - LGBM-B    clear 130866  0.102    0.065    0.144  0.336     0.157     0.504     307
+    LGBM-B-parity - LGBM-B    mixed  66892  2.274    1.822    2.754  2.174     1.491     2.929     283
+    LGBM-B-parity - LGBM-B overcast  26264  1.339    0.931    1.746  2.507     1.841     3.157     140
+           LGBM-C - LGBM-A      all 224022  4.434    3.525    5.316  0.377    -0.734     1.516     365
+           LGBM-C - LGBM-A  jan_aug 159369  4.304    3.261    5.460  0.416    -0.944     1.838     243
+           LGBM-C - LGBM-A  sep_dec  64653  4.757    3.332    6.312  0.259    -1.236     2.025     122
+           LGBM-C - LGBM-A    clear 130866  6.050    5.381    6.752  2.957     1.911     4.213     307
+           LGBM-C - LGBM-A    mixed  66892 -3.981   -5.016   -2.940 -4.079    -5.530    -2.665     283
+           LGBM-C - LGBM-A overcast  26264 17.819   13.895   21.818 15.742    10.825    20.808     140
+          LGBM-A0 - LGBM-A      all 224022  0.057    0.037    0.077 -0.038    -0.078    -0.002     365
+          LGBM-A0 - LGBM-A  jan_aug 159369  0.034    0.010    0.056 -0.040    -0.092     0.009     243
+          LGBM-A0 - LGBM-A  sep_dec  64653  0.114    0.076    0.154 -0.031    -0.093     0.031     122
+          LGBM-A0 - LGBM-A    clear 130866  0.064    0.049    0.078 -0.025    -0.074     0.013     307
+          LGBM-A0 - LGBM-A    mixed  66892 -0.007   -0.059    0.042 -0.069    -0.144     0.006     283
+          LGBM-A0 - LGBM-A overcast  26264  0.183    0.112    0.251  0.019    -0.061     0.098     140
+LGBM-A - Weather-only LSTM      all 224022 -0.049   -0.193    0.096 -0.252    -0.471    -0.012     365
+LGBM-A - Weather-only LSTM  jan_aug 159369 -0.066   -0.264    0.112 -0.310    -0.615    -0.007     243
+LGBM-A - Weather-only LSTM  sep_dec  64653 -0.008   -0.258    0.240 -0.069    -0.415     0.284     122
+LGBM-A - Weather-only LSTM    clear 130866 -0.185   -0.344   -0.025 -0.329    -0.568    -0.087     307
+LGBM-A - Weather-only LSTM    mixed  66892  0.100   -0.228    0.419 -0.410    -0.825     0.026     283
+LGBM-A - Weather-only LSTM overcast  26264  0.249   -0.119    0.609  0.219    -0.268     0.705     140
+         LGBM-B - CNN+LSTM      all 224022 -3.943   -4.413   -3.504 -1.148    -1.772    -0.596     365
+         LGBM-B - CNN+LSTM  jan_aug 159369 -4.220   -4.827   -3.635 -0.700    -1.414    -0.001     243
+         LGBM-B - CNN+LSTM  sep_dec  64653 -3.258   -3.770   -2.732 -2.682    -3.439    -1.890     122
+         LGBM-B - CNN+LSTM    clear 130866 -5.542   -6.049   -5.023 -2.197    -2.686    -1.756     307
+         LGBM-B - CNN+LSTM    mixed  66892 -1.940   -2.715   -1.155 -0.994    -2.229     0.204     283
+         LGBM-B - CNN+LSTM overcast  26264 -1.076   -2.159    0.043 -1.814    -3.527    -0.126     140
+  LGBM-B-parity - CNN+LSTM      all 224022 -3.047   -3.516   -2.594  0.256    -0.374     0.871     365
+  LGBM-B-parity - CNN+LSTM  jan_aug 159369 -3.691   -4.312   -3.083  0.154    -0.603     0.918     243
+  LGBM-B-parity - CNN+LSTM  sep_dec  64653 -1.461   -2.022   -0.865  0.597    -0.222     1.534     122
+  LGBM-B-parity - CNN+LSTM    clear 130866 -5.440   -5.947   -4.916 -1.862    -2.369    -1.416     307
+  LGBM-B-parity - CNN+LSTM    mixed  66892  0.334   -0.429    1.084  1.180    -0.073     2.448     283
+  LGBM-B-parity - CNN+LSTM overcast  26264  0.263   -0.730    1.245  0.693    -1.081     2.314     140
+LGBM-B - Weather-only LSTM      all 224022 -2.775   -3.180   -2.375 -3.875    -4.589    -3.136     365
+LGBM-B - Weather-only LSTM  jan_aug 159369 -2.782   -3.316   -2.265 -3.867    -4.774    -2.979     243
+LGBM-B - Weather-only LSTM  sep_dec  64653 -2.757   -3.337   -2.214 -4.049    -5.195    -2.981     122
+LGBM-B - Weather-only LSTM    clear 130866 -0.779   -0.986   -0.507 -1.027    -1.532    -0.442     307
+LGBM-B - Weather-only LSTM    mixed  66892 -6.773   -7.706   -5.830 -6.422    -7.813    -5.046     283
+LGBM-B - Weather-only LSTM overcast  26264 -2.534   -3.480   -1.515 -4.485    -6.126    -2.911     140
+        season sza_band                            subset      n  cf2_median  frac_cf2_gt_0.15  MAE_A  MAE_B  MBE_A  MBE_B  boot_dMAE  boot_dMAE_lo  boot_dMAE_hi  boot_dRMSE  boot_dRMSE_lo  boot_dRMSE_hi  boot_n_days
+summer_jun_aug  (0, 50]                             clear  34340       0.042             0.073  5.315  5.222 -2.065 -0.695     -0.093        -0.695         0.801       1.343         -0.099          3.658           88
+summer_jun_aug (50, 60]                             clear   8120       0.108             0.307  5.145  4.889 -1.949 -1.257     -0.256        -0.508         0.021      -0.125         -0.789          0.668           90
+summer_jun_aug (60, 70]                             clear   7798       0.149             0.493  4.558  4.163 -1.409 -0.923     -0.395        -0.700        -0.057      -1.041         -3.473          0.926           90
+summer_jun_aug (70, 85]                             clear   8026       0.220             0.760  3.492  2.627 -1.045 -0.281     -0.864        -1.049        -0.680      -0.893         -1.501         -0.339           90
+  other_months  (0, 50]                             clear  26602       0.041             0.077 10.769  9.798 -0.972  2.109     -0.971        -1.284        -0.680      -1.468         -2.332         -0.705          118
+  other_months (50, 60]                             clear  15114       0.042             0.129 10.919  9.823 -0.406  1.082     -1.096        -1.404        -0.786      -1.804         -2.720         -0.869          158
+  other_months (60, 70]                             clear  16598       0.071             0.240  8.819  8.285 -0.221  0.934     -0.535        -0.819        -0.237      -0.904         -1.438         -0.357          183
+  other_months (70, 85]                             clear  14268       0.137             0.466  5.200  4.416 -0.454  0.521     -0.785        -0.947        -0.611      -1.169         -1.930         -0.532          197
+           all      all                 clear_cf2_gt_0.15  29553       0.223             1.000 14.015 13.818  0.566 -0.690     -0.197        -0.835         0.695      -1.311         -2.424          0.062          301
+           all      all                 clear_cf2_le_0.15 101245       0.043             0.000  5.385  4.673 -1.629  0.716     -0.712        -0.835        -0.579      -0.377         -0.532         -0.220          286
+summer_jun_aug (60, 85] summer_clear_sza_gt60_cf2_gt_0.15   9939       0.234             1.000  4.315  3.642 -1.050 -0.700     -0.674        -0.941        -0.390      -1.274         -3.236          0.435           91

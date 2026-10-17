@@ -1,0 +1,42 @@
+[B] trial 0: k_MSE 0.020643 RMSE 56.46 iters 228 (13.0 s)
+[B] trial 1: k_MSE 0.020705 RMSE 56.51 iters 379 (24.0 s)
+[B] trial 2: k_MSE 0.020746 RMSE 56.60 iters 1615 (44.3 s)
+[B] trial 3: k_MSE 0.020802 RMSE 56.57 iters 171 (15.5 s)
+[B] trial 4: k_MSE 0.020599 RMSE 56.38 iters 192 (14.7 s)
+[B] trial 5: k_MSE 0.020569 RMSE 56.41 iters 347 (10.0 s)
+[B] trial 6: k_MSE 0.020659 RMSE 56.47 iters 427 (21.7 s)
+[B] trial 7: k_MSE 0.020686 RMSE 56.46 iters 102 (8.1 s)
+[B] trial 8: k_MSE 0.020761 RMSE 56.63 iters 138 (10.0 s)
+[B] trial 9: k_MSE 0.020655 RMSE 56.51 iters 414 (16.6 s)
+[B] trial 10: k_MSE 0.020756 RMSE 56.65 iters 642 (19.4 s)
+[B] trial 11: k_MSE 0.020851 RMSE 56.65 iters 584 (11.8 s)
+[B] trial 12: k_MSE 0.020635 RMSE 56.45 iters 201 (11.6 s)
+[B] trial 13: k_MSE 0.020792 RMSE 56.66 iters 134 (7.2 s)
+[B] trial 14: k_MSE 0.020792 RMSE 56.63 iters 348 (8.4 s)
+[B] trial 15: k_MSE 0.020699 RMSE 56.53 iters 503 (10.2 s)
+[B] trial 16: k_MSE 0.020487 RMSE 56.23 iters 333 (19.7 s)
+[B] trial 17: k_MSE 0.020808 RMSE 56.70 iters 546 (24.4 s)
+[B] trial 18: k_MSE 0.020752 RMSE 56.63 iters 248 (14.3 s)
+[B] trial 19: k_MSE 0.020723 RMSE 56.57 iters 1333 (56.5 s)
+[B] trial 20: k_MSE 0.020601 RMSE 56.45 iters 127 (8.2 s)
+[B] trial 21: k_MSE 0.020818 RMSE 56.61 iters 470 (7.1 s)
+[B] trial 22: k_MSE 0.020643 RMSE 56.42 iters 123 (8.9 s)
+[B] trial 23: k_MSE 0.020602 RMSE 56.39 iters 192 (15.1 s)
+[B] trial 24: k_MSE 0.020765 RMSE 56.61 iters 521 (30.3 s)
+[B] trial 25: k_MSE 0.020682 RMSE 56.44 iters 1106 (45.5 s)
+[B] trial 26: k_MSE 0.020542 RMSE 56.29 iters 172 (11.8 s)
+[B] trial 27: k_MSE 0.020722 RMSE 56.54 iters 2760 (38.7 s)
+[B] trial 28: k_MSE 0.020752 RMSE 56.50 iters 149 (7.0 s)
+[B] trial 29: k_MSE 0.020611 RMSE 56.37 iters 117 (8.4 s)
+{
+ "best_trial": 16,
+ "params": {
+  "num_leaves": 122,
+  "min_data_in_leaf": 270,
+  "learning_rate": 0.020418191538433782,
+  "feature_fraction": 0.7812947240320913,
+  "bagging_fraction": 0.7474449997022778,
+  "lambda_l2": 6.013821213404011
+ },
+ "val_purged_k_MSE": 0.020487247663148116
+}

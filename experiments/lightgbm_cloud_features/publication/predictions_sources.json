@@ -1,0 +1,223 @@
+{
+ "val": {
+  "final_lgbm_A_seed0": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A_seed0/predictions_val.parquet",
+   "sha256": "af5e47ea3a4c2d1db6c5d0771caf65af71dbafcda55c8bdf3d0305995ba45488"
+  },
+  "final_lgbm_A_seed1": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A_seed1/predictions_val.parquet",
+   "sha256": "2a4b5a0b480dd98f555089c6889cac0092feb5827a59e6e703533bd8a77e407c"
+  },
+  "final_lgbm_A_seed2": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A_seed2/predictions_val.parquet",
+   "sha256": "586c80a57fe6c3c4606f7bd72c41a142df40c3d6373217db3de5cc03450b4a5a"
+  },
+  "final_lgbm_A_seed3": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A_seed3/predictions_val.parquet",
+   "sha256": "2b90e23397dd12ecfd3c23e8b8f330120623f7cc02068a36d728a0afdc9f98c4"
+  },
+  "final_lgbm_A_seed4": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A_seed4/predictions_val.parquet",
+   "sha256": "409909192b450b59e0504ec6b2e19172c3ce2e68066b689b15f26cd67886a691"
+  },
+  "final_lgbm_A0_seed0": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A0_seed0/predictions_val.parquet",
+   "sha256": "d062afbe2ec66bb545e28d1e41f26e64ecee9fb3c13657bb2a5021805a0f6e0e"
+  },
+  "final_lgbm_A0_seed1": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A0_seed1/predictions_val.parquet",
+   "sha256": "8af507ac2df75a21f3c1f119de7f11f145d34f12d6248de7af3edf8346febcba"
+  },
+  "final_lgbm_A0_seed2": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A0_seed2/predictions_val.parquet",
+   "sha256": "e6b1f4832220663c91f77b2a260a8a87255ecc9506ecc586b08a1ef5b0bd207e"
+  },
+  "final_lgbm_A0_seed3": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A0_seed3/predictions_val.parquet",
+   "sha256": "1f74aa19ed641b58e4bf68bd097e267e43e6c182e7e4693cc9d212a3427c4352"
+  },
+  "final_lgbm_A0_seed4": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A0_seed4/predictions_val.parquet",
+   "sha256": "6702ac02614238d20d99a06c0068e9cdabf02995d6a7c1621c546413b9d57241"
+  },
+  "final_lgbm_B_seed0": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_seed0/predictions_val.parquet",
+   "sha256": "93764358a3fe86ca07adf333ee95cd4be2da461c9617e2ee5e3f3aff82c5310b"
+  },
+  "final_lgbm_B_seed1": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_seed1/predictions_val.parquet",
+   "sha256": "d5121ee7f32ee9c69b9fdd871e06edc6a9e36d6547db024ca5854efb45648809"
+  },
+  "final_lgbm_B_seed2": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_seed2/predictions_val.parquet",
+   "sha256": "52b58eab39d3ff02617c5096dd9b6dc5b66285d6d8e0ffa1d4689f0c9d52c923"
+  },
+  "final_lgbm_B_seed3": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_seed3/predictions_val.parquet",
+   "sha256": "258230a8d025605a261ea24d6074eaa03cb70be88545fac483290fd47a3fbabc"
+  },
+  "final_lgbm_B_seed4": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_seed4/predictions_val.parquet",
+   "sha256": "de259037a13bfa6077e0c1911605b0110499d51e420449d5bf7f987f88db7323"
+  },
+  "final_lgbm_C_seed0": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_C_seed0/predictions_val.parquet",
+   "sha256": "ff834478ac25c49a87c9fd9702ea9544df6c3d7653efa884c82a19eb3f12db9e"
+  },
+  "final_lgbm_C_seed1": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_C_seed1/predictions_val.parquet",
+   "sha256": "c1e9c632056d583bb0ccfbe78a8c57330a7aa42b63da4b2061592fd68c67285c"
+  },
+  "final_lgbm_C_seed2": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_C_seed2/predictions_val.parquet",
+   "sha256": "db437398673ac60cea20dc1592054890843c56dab02a7cdeb41c32d7174fad4b"
+  },
+  "final_lgbm_C_seed3": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_C_seed3/predictions_val.parquet",
+   "sha256": "9121c41219332c17c6867274c0518dc7b0ea917dbb0a6bbb41e10ac091cb52c6"
+  },
+  "final_lgbm_C_seed4": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_C_seed4/predictions_val.parquet",
+   "sha256": "727e95bb904641e1c89d95a05dab616c83f79227fff62af09f16b2d1123fd2da"
+  },
+  "final_lgbm_B_parity_seed0": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_parity_seed0/predictions_val.parquet",
+   "sha256": "101255fedcd6e388b1325ca0260853c3a7b67673513e7ca92d8dd4772cfedd3c"
+  },
+  "final_lgbm_B_parity_seed1": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_parity_seed1/predictions_val.parquet",
+   "sha256": "21e58b919a02535ae4f92a39275e922315c0da5d56bc054f58fb33bcdb601970"
+  },
+  "final_lgbm_B_parity_seed2": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_parity_seed2/predictions_val.parquet",
+   "sha256": "a1d67dd92b0e1d692a1b01f2c7b93040b9e8c84a98136ad38725a30750f9af5e"
+  },
+  "final_lgbm_B_parity_seed3": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_parity_seed3/predictions_val.parquet",
+   "sha256": "1b9f1eb195cd3a14c3321539d2462af434580e52f0ba7094b1f2a3c14f051dc6"
+  },
+  "final_lgbm_B_parity_seed4": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_parity_seed4/predictions_val.parquet",
+   "sha256": "3b820925f81abac7cda11829ab2cbef39fdcdbc725df49e39fc33af2915cb9b1"
+  },
+  "final_ridge_A": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_ridge_A/predictions_val.parquet",
+   "sha256": "d99b00121636b5b632de11b1d7a911ab9c8014a53e324e896f81ebc743f83fc8"
+  },
+  "final_ridge_B": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_ridge_B/predictions_val.parquet",
+   "sha256": "93fb0504654e94cc34d012a6ff624ede64752c13e7f5353c1868451140138630"
+  }
+ },
+ "test": {
+  "final_lgbm_A_seed0": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A_seed0/predictions_test.parquet",
+   "sha256": "68225e2acbb85bc344bbfcf17d40cba35dd7061898f7c2f80ec71c4fa0dd01b8"
+  },
+  "final_lgbm_A_seed1": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A_seed1/predictions_test.parquet",
+   "sha256": "019b8023716a6d2cd7793cfd90886d609ed3d71acebf51437d8800badc0039a2"
+  },
+  "final_lgbm_A_seed2": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A_seed2/predictions_test.parquet",
+   "sha256": "254844bf0ecf84174b9c77353ae3d4db3a6837b8db4ac5e15937a7947417a328"
+  },
+  "final_lgbm_A_seed3": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A_seed3/predictions_test.parquet",
+   "sha256": "60c74c6f8d77e891a912b414cd96d8ab9a1a5376c68924ec6c700d0bf2297da0"
+  },
+  "final_lgbm_A_seed4": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A_seed4/predictions_test.parquet",
+   "sha256": "05fd4a920b77135bd705dc185a1d2362c82beccc3b9695583089312ee8bc4561"
+  },
+  "final_lgbm_A0_seed0": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A0_seed0/predictions_test.parquet",
+   "sha256": "96b6a77697c15b61c35debba8e4928242c5d952f60fe72b5eb7699fbb089262b"
+  },
+  "final_lgbm_A0_seed1": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A0_seed1/predictions_test.parquet",
+   "sha256": "9f99e5845bb0d4a060b722192c13c13b017233434073b2f57b83051d3954b4e5"
+  },
+  "final_lgbm_A0_seed2": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A0_seed2/predictions_test.parquet",
+   "sha256": "60e086e9508c2f1f395f6f77960741d04b43edeb575a360bb08b5b26bfd96edd"
+  },
+  "final_lgbm_A0_seed3": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A0_seed3/predictions_test.parquet",
+   "sha256": "08f18b830199dbb85f331d86965fd35ef9becbf3a8d49e4f2e86ec55f4e8030f"
+  },
+  "final_lgbm_A0_seed4": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_A0_seed4/predictions_test.parquet",
+   "sha256": "660124b06ed5bad257aec35f3e5340f603f5ce56a21c512e956fc67f200c5a88"
+  },
+  "final_lgbm_B_seed0": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_seed0/predictions_test.parquet",
+   "sha256": "0552ff8d008f901e06da2a6d51221407064a0cd1e32d186495d862a79b19386a"
+  },
+  "final_lgbm_B_seed1": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_seed1/predictions_test.parquet",
+   "sha256": "e8c917103eea3d8a472241fd6ef49fe8e7d05da2322dd6bb8fd36ae3402f1ee0"
+  },
+  "final_lgbm_B_seed2": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_seed2/predictions_test.parquet",
+   "sha256": "143236a0e588f3188e41fc18ce18440fb18567d13426c3a6616b4aef6988bd3b"
+  },
+  "final_lgbm_B_seed3": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_seed3/predictions_test.parquet",
+   "sha256": "d9c01fb88407a6e8a8ccaf52556db46ae33d310b1195d6fdfc094813dff3298a"
+  },
+  "final_lgbm_B_seed4": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_seed4/predictions_test.parquet",
+   "sha256": "d49d9beafd8259411f2c3a676507c075f3523720095f1a2cbbd797c460cfb001"
+  },
+  "final_lgbm_C_seed0": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_C_seed0/predictions_test.parquet",
+   "sha256": "90a3d71c6272d7e90c02f1ce988dd0eddd1ab25ae940c77010c37df486057fc8"
+  },
+  "final_lgbm_C_seed1": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_C_seed1/predictions_test.parquet",
+   "sha256": "17ca17dd254866d5364b6d04a60a22ad4d590fd0307d318a652356a0412ac8d1"
+  },
+  "final_lgbm_C_seed2": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_C_seed2/predictions_test.parquet",
+   "sha256": "12c991aa4b8ca2b1ee69335bf6679ddeb8633ccbf02d79687ff840f8a63ce565"
+  },
+  "final_lgbm_C_seed3": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_C_seed3/predictions_test.parquet",
+   "sha256": "70b38b64e87e9e54111336abbee2e741898a51f122eb58af2b1640a27a9c1e49"
+  },
+  "final_lgbm_C_seed4": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_C_seed4/predictions_test.parquet",
+   "sha256": "1cafc7029ecb86e13360bc9e28f4b7ff7891a2bd21ea322c13b4571cb5c5bb78"
+  },
+  "final_lgbm_B_parity_seed0": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_parity_seed0/predictions_test.parquet",
+   "sha256": "0d6b487f1a83770f1f6b7ca6ab236d78d51c434959fb402b3109b18525ba6cfb"
+  },
+  "final_lgbm_B_parity_seed1": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_parity_seed1/predictions_test.parquet",
+   "sha256": "d220542b8707a50e71d0957b884936e01b93b2c7c13602a8c92089b0e7f6caf3"
+  },
+  "final_lgbm_B_parity_seed2": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_parity_seed2/predictions_test.parquet",
+   "sha256": "ace3337fbc05a4743eeb6de66b368578588aa4ef1efac01551d49162ecb71675"
+  },
+  "final_lgbm_B_parity_seed3": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_parity_seed3/predictions_test.parquet",
+   "sha256": "63ed355073b513859b3f481b01617a7dc334934563e3762184d5602f7e3af3ae"
+  },
+  "final_lgbm_B_parity_seed4": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_lgbm_B_parity_seed4/predictions_test.parquet",
+   "sha256": "1c993cc6e022e9671f11fbcf385790bdba120aa9bb22e51d0b0a8e1b9ab47a0f"
+  },
+  "final_ridge_A": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_ridge_A/predictions_test.parquet",
+   "sha256": "578ff454a72c4415304f80277523ff424a5decac523353b0f7b84cc5977dcda0"
+  },
+  "final_ridge_B": {
+   "file": "experiments/lightgbm_cloud_features/runs/final_ridge_B/predictions_test.parquet",
+   "sha256": "e143356a5743d524a9d2ace0f88aec4c7b3239188b0e01050d222d329252124e"
+  }
+ },
+ "note": "k_pred__<run> columns are copied unchanged from these original files (sha256 at copy time)."
+}

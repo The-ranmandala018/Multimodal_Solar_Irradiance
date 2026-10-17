@@ -1,0 +1,382 @@
+{
+ "all_ok": true,
+ "tolerance": 1e-09,
+ "checks": [
+  {
+   "check": "run=LGBM-A",
+   "ok": true,
+   "detail": 2.220446049250313e-16
+  },
+  {
+   "check": "val consolidated==original LGBM-A",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "run=LGBM-A0",
+   "ok": true,
+   "detail": 7.105427357601002e-15
+  },
+  {
+   "check": "val consolidated==original LGBM-A0",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "run=LGBM-B",
+   "ok": true,
+   "detail": 4.440892098500626e-16
+  },
+  {
+   "check": "val consolidated==original LGBM-B",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "run=LGBM-C",
+   "ok": true,
+   "detail": 4.440892098500626e-16
+  },
+  {
+   "check": "val consolidated==original LGBM-C",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "run=LGBM-B-parity",
+   "ok": true,
+   "detail": 7.105427357601002e-15
+  },
+  {
+   "check": "val consolidated==original LGBM-B-parity",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "run=Ridge-A",
+   "ok": true,
+   "detail": 0.0
+  },
+  {
+   "check": "val consolidated==original Ridge-A",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "run=Ridge-B",
+   "ok": true,
+   "detail": 0.0
+  },
+  {
+   "check": "val consolidated==original Ridge-B",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "model=LGBM-A",
+   "ok": true,
+   "detail": 3.552713678800501e-15
+  },
+  {
+   "check": "test consolidated==original LGBM-A",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "model=LGBM-A0",
+   "ok": true,
+   "detail": 0.0
+  },
+  {
+   "check": "test consolidated==original LGBM-A0",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "model=LGBM-B",
+   "ok": true,
+   "detail": 3.552713678800501e-15
+  },
+  {
+   "check": "test consolidated==original LGBM-B",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "model=LGBM-C",
+   "ok": true,
+   "detail": 7.105427357601002e-15
+  },
+  {
+   "check": "test consolidated==original LGBM-C",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "model=LGBM-B-parity",
+   "ok": true,
+   "detail": 1.1102230246251565e-16
+  },
+  {
+   "check": "test consolidated==original LGBM-B-parity",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "model=Ridge-A",
+   "ok": true,
+   "detail": 1.1102230246251565e-16
+  },
+  {
+   "check": "test consolidated==original Ridge-A",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "model=Ridge-B",
+   "ok": true,
+   "detail": 0.0
+  },
+  {
+   "check": "test consolidated==original Ridge-B",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "model=Weather-only LSTM",
+   "ok": true,
+   "detail": 3.552713678800501e-15
+  },
+  {
+   "check": "model=CNN+LSTM",
+   "ok": true,
+   "detail": 0.0
+  },
+  {
+   "check": "model=Image-only CNN",
+   "ok": true,
+   "detail": 0.0
+  },
+  {
+   "check": "model=Clear-sky persistence",
+   "ok": true,
+   "detail": 1.1102230246251565e-16
+  },
+  {
+   "check": "targets_val.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_val_lgbm_A.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_val_lgbm_A0.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_val_lgbm_B.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_val_lgbm_C.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_val_lgbm_B_parity.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_val_ridge_A.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_val_ridge_B.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "val published files reproduce LGBM-A",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "val published files reproduce LGBM-A0",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "val published files reproduce LGBM-B",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "val published files reproduce LGBM-C",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "val published files reproduce LGBM-B-parity",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "val published files reproduce Ridge-A",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "val published files reproduce Ridge-B",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "targets_test.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_test_lgbm_A.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_test_lgbm_A0.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_test_lgbm_B.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_test_lgbm_C.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_test_lgbm_B_parity.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_test_ridge_A.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "predictions_test_ridge_B.parquet round-trip identical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "test published files reproduce LGBM-A",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "test published files reproduce LGBM-A0",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "test published files reproduce LGBM-B",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "test published files reproduce LGBM-C",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "test published files reproduce LGBM-B-parity",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "test published files reproduce Ridge-A",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "test published files reproduce Ridge-B",
+   "ok": true,
+   "detail": ""
+  }
+ ],
+ "publication_files": {
+  "targets_val.parquet": {
+   "bytes": 2358969,
+   "sha256": "424292d0d2658f25ef83f127a7dac6a526badc2a42977963c3bdb30fa4f64baa"
+  },
+  "predictions_val_lgbm_A.parquet": {
+   "bytes": 1943541,
+   "sha256": "219dae2eaab09616aa11e6b033f5f8cc7d9d26b3d2a0d86da37c55e2a0a87560"
+  },
+  "predictions_val_lgbm_A0.parquet": {
+   "bytes": 1931665,
+   "sha256": "e01f80c3fcf28315ba9505ecb0f16a1dc97b504d697ee7cfa05bb0a9b6f6c7f5"
+  },
+  "predictions_val_lgbm_B.parquet": {
+   "bytes": 2156601,
+   "sha256": "ebdb679b4ab582d59fcfd243b8b039e69323ce6cb010f6fbbfaef9405ad7e250"
+  },
+  "predictions_val_lgbm_C.parquet": {
+   "bytes": 2154913,
+   "sha256": "9b3a25ff0f5654121a1745d3a52d6fc9899ea6862ad9875c93dde7d98e291579"
+  },
+  "predictions_val_lgbm_B_parity.parquet": {
+   "bytes": 2142145,
+   "sha256": "32bfae32aaa6b2c78e9cd91529cfb1aa31ccafc2377277eb9029c2304194b893"
+  },
+  "predictions_val_ridge_A.parquet": {
+   "bytes": 540873,
+   "sha256": "95b2a5f369ec2c43d4c6948bc04edea77c262244c3c59d7f5ceb46ec2442f30b"
+  },
+  "predictions_val_ridge_B.parquet": {
+   "bytes": 540805,
+   "sha256": "e816551aabb4c14d5d8192786921dec0ba067b0bc97b90b3dd37c3c0373b4c24"
+  },
+  "targets_test.parquet": {
+   "bytes": 11174846,
+   "sha256": "60fd7e1b1a40a1431e09b80678b41a8e0549c30b562bf1410e631661888b71a3"
+  },
+  "predictions_test_lgbm_A.parquet": {
+   "bytes": 9022071,
+   "sha256": "ac964442e3d7b3e92396ef2ea8a91ba3dd9e1005d25581a03b4ede791cbb0e90"
+  },
+  "predictions_test_lgbm_A0.parquet": {
+   "bytes": 8998186,
+   "sha256": "db0449840bd0d950f20bcc31c3274d95c0daeee8cd1a38e44ca23f4f96060848"
+  },
+  "predictions_test_lgbm_B.parquet": {
+   "bytes": 10187155,
+   "sha256": "3d42c39571b3a6f6bdeb3b0d99a4920eba2067bd0cd5f56fb8e345ddc3ed3043"
+  },
+  "predictions_test_lgbm_C.parquet": {
+   "bytes": 10191330,
+   "sha256": "cad0c870a139ff31bb77449980f1a9ebf23b579509c002d9179db0d6250e364e"
+  },
+  "predictions_test_lgbm_B_parity.parquet": {
+   "bytes": 10134043,
+   "sha256": "6d4759837e02d71fc4ded2d1f250e42401aeeb6f3d919d5b1ed65966a87f95e8"
+  },
+  "predictions_test_ridge_A.parquet": {
+   "bytes": 2423687,
+   "sha256": "401ac4ebfd06a0069603dbbf0e562df0b9eb5bd2d57121b8f6f188604eb3f887"
+  },
+  "predictions_test_ridge_B.parquet": {
+   "bytes": 2423664,
+   "sha256": "74d755810da6769816669c48ca33797cc594f4592ee78e6333a1eada27cd224a"
+  }
+ }
+}
