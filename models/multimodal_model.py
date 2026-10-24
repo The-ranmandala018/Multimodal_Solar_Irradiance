@@ -18,8 +18,20 @@ from .fusion import ConcatenationFusion
 from .heads import BaselineRegressionHead
 
 
+def build_visual_encoder(name: str, visual_dim: int = 256) -> nn.Module:
+    """Build the image encoder: "cnn" (default) or "vim_tiny"."""
+    if name == "cnn":
+        return FolsomCNNEncoder(in_channels=10, feature_dim=visual_dim)
+    if name == "vim_tiny":
+        # Imported here so CNN models do not need mamba-ssm installed.
+        from .visual_encoder_vim import FolsomVimTinyEncoder
+
+        return FolsomVimTinyEncoder(in_channels=10, feature_dim=visual_dim)
+    raise ValueError(f"Unknown visual encoder: {name!r}")
+
+
 class MultimodalSolarForecastModel(nn.Module):
-    """CNN + LSTM + concatenation fusion + regression head."""
+    """Image encoder (CNN by default) + LSTM + fusion + regression head."""
 
     def __init__(
         self,
@@ -28,13 +40,11 @@ class MultimodalSolarForecastModel(nn.Module):
         hidden_dim: int = 256,
         output_dim: int = 1,
         dropout: float = 0.3,
+        visual_encoder: str = "cnn",
     ):
         super().__init__()
 
-        self.visual_encoder = FolsomCNNEncoder(
-            in_channels=10,
-            feature_dim=visual_dim,
-        )
+        self.visual_encoder = build_visual_encoder(visual_encoder, visual_dim)
 
         self.temporal_encoder = BaselineTemporalEncoder(
             input_dim=7,
@@ -164,10 +174,18 @@ class ImageOnlyForecastModel(nn.Module):
         return self.forecasting_head(self.visual_encoder(visual_input))
 
 
+class VimTinyLSTMForecastModel(MultimodalSolarForecastModel):
+    """Same as cnn_lstm, but the CNN is replaced by Vim-tiny."""
+
+    def __init__(self, **kwargs):
+        super().__init__(visual_encoder="vim_tiny", **kwargs)
+
+
 MODEL_TYPES = {
     "cnn_lstm": MultimodalSolarForecastModel,
     "weather_only": WeatherOnlyForecastModel,
     "image_only": ImageOnlyForecastModel,
+    "vim_tiny_lstm": VimTinyLSTMForecastModel,
 }
 
 
@@ -185,6 +203,8 @@ __all__ = [
     "MultimodalSolarForecastModel",
     "WeatherOnlyForecastModel",
     "ImageOnlyForecastModel",
+    "VimTinyLSTMForecastModel",
+    "build_visual_encoder",
     "MODEL_TYPES",
     "build_model",
     "uses_images",
