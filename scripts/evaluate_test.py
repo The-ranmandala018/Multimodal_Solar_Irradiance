@@ -39,6 +39,11 @@ def parse_args():
         help="Model type. Default: read from the checkpoint, else cnn_lstm.",
     )
     p.add_argument(
+        "--cloud-channel",
+        action="store_true",
+        help="Must match the flag used in training (cloud score replaces the intensity channel).",
+    )
+    p.add_argument(
         "--reset-evaluation",
         action="store_true",
         help="Ignore existing per-rank evaluation checkpoints and start test evaluation again.",
@@ -157,6 +162,7 @@ def make_config(args, distributed, rank, world_size):
             "rank": rank,
             "world_size": world_size,
             "load_images": uses_images(args.model),
+            "cloud_channel": args.cloud_channel,
         },
         "model": {"horizons": [10]},
         "training": {"val_split": 0.1},

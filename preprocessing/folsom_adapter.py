@@ -79,6 +79,7 @@ class FolsomPreprocessor:
         self,
         year: int,
         image_root: str = DEFAULT_IMAGE_ROOT,
+        cloud_channel: bool = False,
     ):
         if year not in SUPPORTED_YEARS:
             raise ValueError(
@@ -93,6 +94,11 @@ class FolsomPreprocessor:
         self.year = int(year)
         self.image_root = image_root
         self.source = _load_original_module()
+
+        # Optional: replace the redundant intensity channel with a cloud score
+        # (preprocessing/cloud_channel.py). Off by default = original tensors.
+        self.cloud_channel = bool(cloud_channel)
+        self._cloud_scaled_maps: dict[int, tuple] = {}
 
         # The source functions read YEAR and IMAGE_DIR as module globals.
         self.source.YEAR = self.year
@@ -523,17 +529,48 @@ class FolsomPreprocessor:
         self,
         image_path: str,
         month: int | None = None,
+        cloud_time=None,
     ):
         from .projection import (
             vectors_to_projection_tensor,
         )
 
-        return vectors_to_projection_tensor(
+        tensor = vectors_to_projection_tensor(
             self.process_image(
                 image_path,
                 month=month,
             )
         )
+
+        if self.cloud_channel:
+            if month is None or cloud_time is None:
+                raise ValueError(
+                    "cloud_channel needs month and cloud_time (sample time)"
+                )
+            import torch
+
+            from .cloud_channel import cloud_channel_map, scale_maps
+
+            month = int(month)
+            if month not in self._cloud_scaled_maps:
+                calibration = self.calibrate_month(month)
+                self._cloud_scaled_maps[month] = scale_maps(
+                    calibration.map_x,
+                    calibration.map_y,
+                )
+            sx, sy = self._cloud_scaled_maps[month]
+            cloud = cloud_channel_map(
+                image_path,
+                self.year,
+                month,
+                cloud_time,
+                sx,
+                sy,
+            )
+            idx = list(self.source.FEATURE_NAMES).index("intensity")
+            tensor[idx] = torch.from_numpy(cloud)
+
+        return tensor
 
 
 def process_folsom_image(

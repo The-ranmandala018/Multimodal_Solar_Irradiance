@@ -46,6 +46,9 @@ class FolsomDataset(Dataset):
         # False for weather-only models: samples are still matched to images
         # (so every model sees the same samples) but images are not processed.
         self.load_images = bool(data_cfg.get("load_images", True))
+        # True: the intensity channel is replaced by a cloud score (see
+        # preprocessing/cloud_channel.py). Default False = original tensors.
+        self.cloud_channel = bool(data_cfg.get("cloud_channel", False))
 
         self.df = self._load_csv()
         self.df = self._add_solar_features(self.df)
@@ -204,6 +207,7 @@ class FolsomDataset(Dataset):
             self._preprocessors[year] = FolsomPreprocessor(
                 year=year,
                 image_root=self.image_root,
+                cloud_channel=self.cloud_channel,
             )
         return self._preprocessors[year]
 
@@ -226,6 +230,7 @@ class FolsomDataset(Dataset):
             image = processor.process_image_to_tensor(
                 image_path,
                 month=dt.month,
+                cloud_time=dt,
             ).float()
         else:
             image = torch.zeros(1)  # placeholder; weather-only models ignore it

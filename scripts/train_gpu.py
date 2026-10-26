@@ -72,6 +72,12 @@ def parse_args() -> argparse.Namespace:
              "images are not loaded, same samples and split).",
     )
     parser.add_argument(
+        "--cloud-channel", action="store_true",
+        help="Replace the redundant intensity channel of the CNN input with the "
+             "cloud score (preprocessing/cloud_channel.py). Default: off. Use "
+             "the same flag in evaluate_test.py.",
+    )
+    parser.add_argument(
         "--seed", type=int, default=None,
         help="Seed Python, NumPy and PyTorch before the model is built, so "
              "weight initialisation and the per-epoch shuffle seeds are "
@@ -214,6 +220,7 @@ def main() -> None:
             "rank": rank,
             "world_size": world_size,
             "load_images": uses_images(args.model),
+            "cloud_channel": args.cloud_channel,
         },
         "model": {
             "horizons": [10],
