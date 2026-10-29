@@ -1,0 +1,14 @@
+metric,value
+checkpoint,experiments/cnn_cloudchan_seed0/checkpoints/best_model.pt
+checkpoint_epoch,6
+checkpoint_val_loss,0.020462170758064353
+test_samples,224022
+k_index_MAE,0.0644183950005896
+k_index_RMSE,0.12528235621460193
+k_index_R2,0.828690720301702
+GHI_clipped_target_MAE_Wm2,30.039971320682383
+GHI_clipped_target_RMSE_Wm2,64.99095793996815
+GHI_clipped_target_R2,0.9462290610028498
+GHI_clipped_target_mean_Wm2,468.04452316619904
+GHI_clipped_target_nMAE,0.06418186696741972
+GHI_clipped_target_nRMSE,0.13885635815225716
